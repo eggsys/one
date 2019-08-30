@@ -1311,7 +1311,7 @@ echo '</script>';
             json.files.sort(function(a, b) {
                 return a.beg > b.beg ? 1 : -1
             });
-            console.log("PASS THE BEG")
+            console.log("PASS THE BEGxx")
             //Add to video file list
             alert("1194")
             var index = 0;
