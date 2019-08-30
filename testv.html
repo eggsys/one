@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>录像用例</title>
+	
+	
+	
+	<link rel='stylesheet' type='text/css' media='screen' href='https://bootswatch.com/4/lux/bootstrap.min.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+
+
+
+
+
+
+	<style type="text/css">
+		.flexigrid .bDiv a {
+			margin: 0px 10px;
+			outline: 0 none;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		.flexigrid {
+			overflow: visible;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+		var datatime=new Date();
+		$("#startTime").val(datatime.getFullYear()+"-"+(datatime.getMonth()+1)+"-"+datatime.getDate()+" "+0+":"+0+":"+0);
+		$("#startTime").click(function(){WdatePicker({lang:'zh',dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+		$("#endTime").val(datatime.getFullYear()+"-"+(datatime.getMonth()+1)+"-"+datatime.getDate()+" "+23+":"+59+":"+59);
+		$("#endTime").click(function(){WdatePicker({lang:'zh',dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+		
+		//Custom header
+		if ($.query.get("lang") == "zh") {
+			lang =new langZhCn();
+	    	$('.languagePath').val('cn.xml');
+	    }else{
+	    	lang=new langEn();
+	    	$('.languagePath').val('en.xml');
+	    }
+		$("#videoFileTable").flexigrid({
+			url: "",					//"StandardTrackAction_query.action"
+			dataType: 'json',			
+			colModel : [	
+				{display: lang.operator, name : 'operator', width : 100, sortable : false, align: 'center'},
+				{display: lang.fileIndex, name : 'fileIndex', width : 40, sortable : false, align: 'center'},
+				{display: lang.fileTime, name : 'fileTime', width : 150, sortable : false, align: 'center'},
+				{display: lang.Type, name : 'type', width : 80, sortable : false, align: 'center'},
+				{display: lang.spanDevice, name : 'vehiIdno', width : 100, sortable : false, align: 'center'},
+				{display: lang.vehiChn, name : 'vehiChn', width : 70, sortable : false, align: 'center'},
+				{display: lang.loc, name : 'loc', width : 80, sortable : false, align: 'center'},
+				{display: lang.fileSize, name : 'fileSize', width : 80, sortable : false, align: 'center'},
+				{display: lang.file ,name: 'file', width : 380,sortable : false, align: 'center'},
+				{display: 'svr' ,name: 'svr',hide : true},
+				{display: 'devIdno' ,name: 'devIdno',hide : true },
+				{display: 'len' ,name: 'len',hide : true},
+				{display: 'chnMask' ,name: 'chnMask',hide : true},
+				{display: 'beg' ,name: 'beg',hide : true},
+				{display: 'end' ,name: 'end',hide : true},
+				],
+			usepager: false,
+			autoload: false,			
+			useRp: false,				
+			singleSelect: true,			
+			clickRowCenter: true,		
+			rp: 15,						
+			showTableToggleBtn: true,	
+			showToggleBtn: false,		
+			width: '1300px',		
+			height: 'auto',				
+			resizable: false
+		});
+			
+		//Load control Chinese or English name
+		loadLang();
+		
+		$("#videoFileTable").flexSetFillCellFun(function(p, row, idx, index) {
+			return fillVideoFileTable(p, row, idx, index);
+		});
+		
+		//Initialize video plug ins
+		initPlayerExample();
+		
+		$("#userLoginBtn").click(function(){
+			userLogin();
+		});
+		
+	});
+
+	var jsion="";	//Used to determine whether the landing
+	var ip_ = "";
+	var port_ ="";
+	var isLanding=false;//To determine whether the landing
+	var IsSearching=false;//To determine whether the search
+	var loadTimeLine = true; //Whether to load the timeline, if the return file date error is not loaded
+	var mapVehicleInfo = new Hashtable();//vehicle info
+	var isInitFinished = false;//Video plug-in is loaded to complete
+	var serverIp="";//Server IP
+	var serverPort="";//Server Port
+	var lang;
+	var searchVehicle = null; //The vehicle being query
+	
+	//Define Chinese name
+	function langZhCn(){
+		this.videoExample = "录像用例";
+		this.geSessionId = "登录";
+		this.userId = "用户名：";
+		this.password = "密码：";
+		this.login = "登录";
+		this.Landing="正在登录";
+		this.Condition = "查询条件";
+		this.NumberPlates = "车牌号：";
+		this.StartTime = "开始时间：";
+		this.EndTime="结束时间：";
+		this.filelocation="文件位置：";
+		this.spanDevice="终端设备";
+		this.spanStorageServer="存储服务器";
+		this.spanDownloadServer="下载服务器";
+		this.filetype="文件类型：";
+		this.spanVideoType="录像";
+		this.VideoType="录像类型：";
+		this.spanVideoNormal="常规";
+		this.spanVideoAlarm="报警";
+		this.spanVideoAll="所有";
+		this.search="搜索";
+		this.searching="正在搜索";
+		this.playbackTitle="录像查询";
+		this.queryresults="查询结果：";
+		this.fileIndex="序号";
+		this.fileTime="时间";
+		this.vehiChn="通道";
+		this.fileSize="大小（MB）";
+		this.file="文件名称";
+		this.Type="录像类型";
+		this.loc="文件位置";
+		this.Normal="常规";
+		this.Alarm="报警";
+		this.Device="设备";
+		this.StorageServer="储服务器";
+		this.DownloadServer="下载服务器";
+		this.portTitle="端口：";
+		this.IPTitle="IP：";
+		this.LoginPrompt="登陆失败！";
+		this.GetnumberPrompt="获取车牌号失败！";
+		this.NotloggedPrompt="您还没登陆，请先登陆！";
+		this.VideoQueryPrompt="未查到相关录像结果！";
+		this.ServerQueryPrompt="相关服务器信息查询失败！";
+		this.download="下载";
+		this.segmentDownload="分段下载";
+		this.video_playback="回放";
+		this.operator="操作";
+		this.findDownloadAddress = "查询下载地址！";
+		this.search_stop = "停止搜索";
+		this.DownloadVideo="下载视频失败!";
+		this.allowed="该浏览器是否设置了允许的弹出框！"
+		this.findReplayAddress = "正在查询回放地址！";
+		this.video_playback = "回放";
+		this.download="下载";
+		this.NullVideoFileInfo = "无视频文件信息！";
+		this.errorGetVideoFile = "获取视频文件信息失败！";
+	}
+		
+	//Define English name
+	function langEn() {
+		this.videoExample = "Video Example";
+		this.geSessionId = "Login";
+		this.userId = "Account:";
+		this.password = "Password:";
+		this.login = "Login";
+		this.Landing="BeingLoggedIn";
+		this.Condition = "Condition";
+		this.NumberPlates = "Number Plates:";
+		this.StartTime = "StartTime：";
+		this.EndTime="EndTime：";
+		this.filelocation="File Location:";
+		this.spanDevice="TerminalEquipment";
+		this.spanStorageServer="StorageServer";
+		this.spanDownloadServer="DownloadServer";
+		this.filetype="File Type:";
+		this.spanVideoType="Videotape";
+		this.VideoType="Video Type:";
+		this.spanVideoNormal="Routine";
+		this.spanVideoAlarm="Alarm";
+		this.spanVideoAll="All";
+		this.search="Search";
+		this.searching="Searching";
+		this.playbackTitle="Video Query";
+		this.queryresults="Query Results:";
+		this.fileIndex="Index";
+		this.fileTime="Time";
+		this.vehiChn="Channel";
+		this.fileSize="Size(MB)";
+		this.file="File";
+		this.Type="VideoType";
+		this.loc="FileLocation";
+		this.Normal="Normal";
+		this.Alarm="Alarm";
+		this.Device="Device";
+		this.StorageServer="StorageServer";
+		this.DownloadServer="DownloadServer";
+		this.portTitle="Port:";
+		this.IPTitle="IP:";
+		this.LoginPrompt="Login failed!";
+		this.GetnumberPrompt="Failed to get the license plate number!";
+		this.NotloggedPrompt="You are not logged in, please login!";
+		this.VideoQueryPrompt="Related video results were not found!";
+		this.ServerQueryPrompt="Related server information query failed!";
+		this.download="Download";
+		this.segmentDownload="SEG Download";
+		this.video_playback="Playback";
+		this.operator="Operator";
+		this.findDownloadAddress = "Querying the download address!";
+		this.search_stop = "Stop Searching";
+		this.DownloadVideo="Failed to get the download video!";
+		this.allowed="Does this browser set the allowed pop up box!"
+		this.findReplayAddress = "Query playback address!";
+		this.video_playback = "PlayBack";
+		this.download="Download";
+		this.NullVideoFileInfo = "No video file information!";
+		this.errorGetVideoFile = "Failed to obtain video file information!";
+	}
+	
+	//Load control Chinese or English name
+	function loadLang() {
+  		document.title = lang.videoExample;
+  		$('#getJsessionTitle').text(lang.geSessionId);
+  		$('#accountTitle').text(lang.userId);
+  		$('#passwordTitle').text(lang.password);
+  		$('#userLoginBtn').text(lang.login);
+  		$('#Condition').text(lang.Condition);
+  		$('#NumberPlates').text(lang.NumberPlates);
+  		$('#labelStartTime').text(lang.StartTime);
+  		$('#labelEndTime').text(lang.StartTime);
+  		$('#filelocation').text(lang.filelocation);
+  		$('#spanDevice').text(lang.spanDevice);
+  		$('#spanDownloadServer').text(lang.spanDownloadServer);
+  		$('#spanStorageServer').text(lang.spanStorageServer);
+  		$('#filetype').text(lang.filetype);
+  		$('#spanVideoType').text(lang.spanVideoType);
+  		$('#VideoType').text(lang.VideoType);
+  		$('#spanVideoNormal').text(lang.spanVideoNormal);
+  		$('#spanVideoAlarm').text(lang.spanVideoAlarm);
+  		$('#spanVideoAll').text(lang.spanVideoAll);
+  		$('#search').text(lang.search);
+  		$('#playbackTitle').text(lang.playbackTitle);
+  		$('#queryresults').text(lang.queryresults);
+  		$('#portTitle').text(lang.portTitle);
+  		$('#IPTitle').text(lang.IPTitle);	
+  	}
+	
+	/*
+	 * Fill in the video file list
+	 */
+	function fillVideoFileTable(p, row, idx, index) {
+		var name = p.colModel[idx].name;
+		var ret = "";
+		if(name == 'fileIndex') {
+			ret = row.id + 1;
+		} else if(name == 'fileTime') {
+			var fileRealDate = getFileTime(row.year, row.mon, row.day);
+			var relBeg = row.beg;
+			var relEnd = row.end;
+			var beginDate = fileRealDate +' '+ second2ShortHourEx(row.beg);
+			var endDate = fileRealDate +' '+ second2ShortHourEx(row.end);
+			var timeTitle = row.beginDate + ' - ' + second2ShortHourEx(row.end);
+			ret=timeTitle;
+		} else if(name == 'vehiIdno') {
+			ret = row.vehiIdno;
+		}else if(name == 'type') {
+			if(row.type=="0"){
+				ret=lang.Normal;
+			}else{
+				ret=lang.Alarm;
+			}
+		}else if(name == 'vehiChn') {
+			ret = row.chnName;
+		}else if(name == 'loc') {
+			if(row.loc == 1) {
+				ret = lang.Device;
+			}else if(row.loc == 2) {
+				ret = lang.StorageServer;
+			}else if(row.loc == 4) {
+				ret = lang.DownloadServer;
+			}
+		} else if(name == 'fileSize') {
+			ret = (row.len/1024/1024).toFixed(2) + 'MB';
+		} else if(name == 'file') {
+			ret = row.file;
+		} else if(name == 'operator') {
+			ret = '<a class="downLoad" onclick="downloadVideoFile('+row['id']+');" title="'+lang.download+'"></a>';
+			ret += '<a class="playback" onclick="videoFileReplay(this,'+row['id']+');" title="'+lang.video_playback+'"></a>';
+			return ret;
+		}else if(name == 'svr'){
+			ret=row.svr;
+		}else if(name == 'devIdno'){
+			ret=row.devIdno;
+		}else if(name == 'len'){
+			ret=row.len;
+		}else if(name == 'chnMask'){
+			ret=row.chnMask;
+		}
+		else if(name == 'end'){
+			ret=row.end;
+		}
+		else if(name == 'beg'){
+			ret=row.beg;
+		}
+		return ret;
+	};
+	
+	/**
+	 *User login
+	 **/  
+	function userLogin() {
+		if(isLanding==true){
+			return;
+		}
+		var account = $.trim($('.account').val());
+		if(account == '') {
+			$('.account').focus();
+			return;
+		}
+		var password = $.trim($('.password').val());
+		if(password == '') {
+			$('.password').focus();
+			return;
+		}
+		ip_ = $('.ip').val();
+		if(ip_ == '') {
+			$('.ip').focus();
+			return;
+		}
+		port_ = $('.port').val();
+		if(port_ == '') {
+			$('.port').focus();
+			return;
+		}
+		isLanding=true;
+		$("#userLoginBtn").text(lang.Landing);
+		var param = [];
+		param.push({name: 'account', value: account});
+		param.push({name: 'password', value: password});
+		
+		$.ajax({
+		type: 'POST',
+		url: '//'+ window.location.host +'/StandardApiAction_login.action',
+		data: param,
+		cache:false,/*Disable browser cache*/
+		dataType: 'jsonp',
+		success: function (data) {
+			if(data.result == 0){
+					jsion=data.jsession;
+					var param = [];
+					param.push({name: 'jsession', value:jsion });
+					$.ajax({
+						type: 'POST',
+						url: '//'+ window.location.host +'/StandardApiAction_queryUserVehicle.action',
+						data: param,
+						cache:false,/*Disable browser cache*/
+						dataType: 'jsonp',
+						success: function (data) {
+							$("#selnumber option").remove();
+							if(data.result == 0){
+								if(data.vehicles && data.vehicles.length > 0) {
+									loadMapVehicleInfo(data.vehicles);
+									
+									mapVehicleInfo.each(function(key, value) {
+										$("#selnumber").append("<option value="+value.device.idno+">"+key+"</option>");
+									});
+								}
+							}
+							isLanding=false;
+							$("#userLoginBtn").text(lang.login);
+						},error: function() {
+							alert(lang.GetnumberPrompt);
+							isLanding=false;
+							$("#userLoginBtn").text(lang.login);
+						}
+					});
+				}
+			},error: function() {
+				alert(lang.LoginPrompt);
+				isLanding=false;
+				$("#userLoginBtn").text(lang.login);
+			}
+		});
+	}
+	
+	
+	/**
+	 * load vehicle infos and	
+	 * load device channel infos
+	**/
+
+
+	function loadMapVehicleInfo(vehicles) {
+		for(var i = 0; i < vehicles.length; i++) {
+			var vehicle = {};
+			vehicle.idno = vehicles[i].nm.toString();
+			if(vehicles[i].dl != null) {
+				if(vehicles[i].dl.length == 1) {
+					var device_ = vehicles[i].dl[0];
+					var device = {};
+					device.idno = device_.id.toString();
+					var channels = [];
+					if(device_.cn != null && device_.cn != "") {
+						var chns = device_.cn.split(",");
+						for(var j = 0; j < chns.length; j++) {
+							var chn = {};
+							chn.index = j;
+							chn.name = chns[j];
+							channels.push(chn);
+						}
+					}
+					device.channels = channels;
+					vehicle.device = device;
+					
+					mapVehicleInfo.put(vehicle.idno, vehicle);
+				}else {
+					var index = 0;
+					for(var j = 0; j < vehicles[i].dl.length; j++) {
+						var device_ = vehicles[i].dl[j];
+						if((device_.md>>0)&1 > 0) {
+							var device = {};
+							device.idno = device_.id.toString();
+							var channels = [];
+							if(device_.cn != null && device_.cn != "") {
+								var chns = device_.cn.split(",");
+								for(var k = 0; k < chns.length; k++) {
+									var chn = {};
+									chn.index = index;
+									chn.name = chns[k];
+									channels.push(chn);
+									
+									index++;
+								}
+							}
+							device.channels = channels;
+							vehicle.device = device;
+							mapVehicleInfo.put(vehicle.idno, vehicle);
+						}else {
+							if(device_.cn != null && device_.cn != "") {
+								var chns = device_.cn.split(",");
+								index = chns.length;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Video information search
+	 **/  
+	function Search(){
+		if(jsion==""){
+			alert(lang.NotloggedPrompt);
+			return;
+		}
+		if(IsSearching==true){
+			return;
+		}
+		IsSearching=true;
+		$("#search").text(lang.searching);
+		var number=$("#selnumber  option:selected").text();
+		searchVehicle = number;
+		var id=$("#selnumber  option:selected").val();
+		var json=$("#namejsession").text();
+		var radioFileLocation=$('input:radio[name="FileLocation"]:checked').val();
+		var radioFileType=$('input:radio[name="FileType"]:checked').val();
+		var radioVideoType=$('input:radio[name="VideoType"]:checked').val();
+		var beginstr =$("#startTime").val();
+		var str=beginstr.split(" ");
+		var begstr = beginstr.replace(/-/g,"/");
+		var begdate = new Date(begstr);
+		var date=str[0].split("-");
+		var y = date[0].toString(); // year
+		var m = date[1].toString(); // month
+		var d = date[2].toString(); // dat
+		var endstr =$("#endTime").val();
+		endstr = endstr.split(" ");
+		var beg=shortHour2Second(str[1].toString());
+		var end=shortHour2Second(endstr[1].toString());
+		var param = [];
+	 	param.push({name: 'MediaType', value: 2});
+	 	param.push({name: 'DownType', value: 2});
+	 	param.push({name: 'jsession', value: jsion});
+	 	if(radioFileLocation != 1) {
+	 		param.push({name: 'DevIDNO', value: number.toString()});
+	 	}else {
+	 		param.push({name: 'DevIDNO', value: id.toString()});
+	 	}
+	 	param.push({name: 'Location', value: Number(radioFileLocation)});
+		$.ajax({
+			type:'POST',
+			url:'//'+ ip_ +':' + port_+'/3/1/callback=getData',
+			data:param,
+			cache:false,
+			dataType: 'jsonp',
+			success: getData = function (data) {
+				if(data.result == 0){
+					serverIp=data.server.clientIp;
+					serverPort=data.server.clientPort;
+					var param2 = [];
+					param2.push({name: 'DownType', value: 2});
+				 	param2.push({name: 'jsession', value: Number(json)});
+				 	if(radioFileLocation != 1) {
+				 		param2.push({name: 'DevIDNO', value: number.toString()});
+				 	}else {
+				 		param2.push({name: 'DevIDNO', value: id.toString()});
+				 	}
+				 	param2.push({name: 'LOC', value: Number(radioFileLocation)});
+				 	param2.push({name: 'CHN', value: -1});
+				 	param2.push({name: 'YEAR', value: Number(y)});
+				 	param2.push({name: 'MON', value: Number(m)});
+				 	param2.push({name: 'DAY', value: Number(d)});
+				 	param2.push({name: 'RECTYPE', value: Number(radioVideoType)});
+				 	param2.push({name: 'FILEATTR', value: Number(radioFileType)});
+				 	param2.push({name: 'BEG', value:beg});
+				 	param2.push({name: 'END', value:end});
+				 	$.ajax({
+						type:'POST',
+						url:'//'+serverIp+':'+serverPort+'/3/5/callback=getData',
+						data:param2,
+						cache:false,
+						dataType: 'jsonp',
+						success: getData = function (json) {
+							$("#videoFileTable tr").remove();
+							if(data.result == 0){
+								addVideoFileInfo(json);
+							}else{
+								alert(lang.VideoQueryPrompt);
+							}
+							IsSearching=false;
+							$("#search").text(lang.search);
+						}
+				 	});
+				}else{
+					alert(lang.ServerQueryPrompt);
+					IsSearching=false;
+					$("#search").text(lang.search);
+				}
+			}
+		});	
+	}
+	
+	//0:0 转换成 0
+	function shortHour2Second(hour) {
+		var temp = hour.split(":");
+		if (temp.length == 2) {
+			return parseIntDecimal(temp[0]) * 3600 + parseIntDecimal(temp[1]) * 60;
+		} else if (temp.length == 3) {
+			return parseIntDecimal(temp[0]) * 3600 + parseIntDecimal(temp[1]) * 60 + parseIntDecimal(temp[2]);
+		} else {
+			return 0;
+		}
+	}	undefined
+
+	/**
+	 * Add video file information
+	 **/ 
+	function addVideoFileInfo(json) {
+		//Adding list to search
+			var files = new Array();
+			if(json.files != null && json.files.length > 0) {
+				//File list sort, according to the start time from small to large
+				json.files.sort(function(a,b){return a.beg > b.beg ? 1 : -1});
+				//Add to video file list
+				var index = 0;
+				for (var i = 0; i < json.files.length; i++) {
+					//The vehicle does not contain this channel, then the information is removed.
+					var isAdd = true;
+					//Can download the task of the whole file download
+					//Multiple channel files, can only be downloaded
+					//ChnMask>0 according to the position to determine the number of channels CHN is also a number of channels
+					if(json.files[i].chnMask > 0) {
+						var maskChnArray = getMaskChnArray(json.files[i].chnMask);
+						json.files[i].maskChns = maskChnArray.maskChns;
+						json.files[i].chnName = maskChnArray.maskChnNames;
+						json.files[i].isSegment = true;//Whether can only be downloaded
+						if(json.files[i].maskChns == '') {
+							isAdd = false;
+						}
+					}else {
+						//chn == 98 All channels
+						if(json.files[i].chn == 98) {
+							json.files[i].chnName = getAllChnName();
+							json.files[i].isSegment = true;
+							if(json.files[i].chnName == '') {
+								isAdd = false;
+							}
+						}else {
+							json.files[i].chnName = getChnName(json.files[i].chn);
+							if(json.files[i].chnName == '') {
+								isAdd = false;
+							}
+						}
+					}
+					if(isAdd) {
+						json.files[i].id = index;
+						if(json.files[i].type == 1) {
+							json.files[i].color = "#FF0000";
+						}
+						json.files[i].vehiIdno = $("#selnumber  option:selected").text();
+						//Handling files across days
+						processFileDay(json.files[i]);
+						json.files[i].isDirect = true;
+						files.push(json.files[i]);
+						index++;
+					}
+				}
+				if(files.length > 0) {
+					//Add to video file list
+					$("#videoFileTable").flexAppendRowJson(files, false);
+					$.dialog.tips(parent.lang.searchCompleted, 1);
+					$(".flexigrid div.bDiv").css('max-height','264px');
+				}
+			}
+			if(json.result == 0) {
+				if(files.length <= 0) {
+					$.dialog.tips(lang.NullVideoFileInfo, 2);
+				}
+			}else {
+				var mess = '';
+				if((typeof showDialogErrorMessage) == 'function') {
+					mess = showDialogErrorMessage(json.result, json.cmsserver);
+				}
+				if(mess != null && mess == '') {
+					$.dialog.tips(lang.errorGetVideoFile, 2);
+				}
+			}
+			
+	}
+	
+	//Gets the name of the channel, comma separated
+	function getMaskChnArray(chnMask) {
+		var chns = [];
+		var chnNames = [];
+		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+			var channels = vehicle.device.channels;
+			for (var i = 0; i < channels.length; i++) {
+				if((chnMask>>channels[i].index)&1 > 0) {
+					chns.push(channels[i].index);
+					chnNames.push(channels[i].name);
+				}
+			}
+		}
+		var data = {};
+		data.maskChns = chns.toString();
+		data.maskChnNames = chnNames.toString();
+		return data;
+	}
+	
+	//Get the all channel name
+	function getAllChnName() {
+		var chnNames = [];
+		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+			var channels = vehicle.device.channels;
+			for (var i = 0; i < channels.length; i++) {
+				chnNames.push(channels[i].name);
+			}
+		}
+		return chnNames.toString();
+	}
+	
+	//Get the channel name
+	function getChnName(chn) {
+		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+			var channels = vehicle.device.channels;
+			for (var i = 0; i < channels.length; i++) {
+				if(chn == channels[i].index) {
+					return channels[i].name;
+				}
+			}
+		}
+	}
+
+	//Deal with file information, cross day
+	function processFileDay(data) {
+		//File across the day before the day of the day or the day after the time
+		//To judge the day before the cross, if the date is the day before
+		var beginstr =$("#startTime").val();
+		beginstr = beginstr.replace(/-/g,"/");
+		var begindate = new Date(beginstr);
+		data.yearMonthDay = dateFormat2DateString(begindate);
+		var day = Number(data.yearMonthDay.substring(8, 10));
+		var fileDay = Number(data.day);
+		var fileRealDate = getFileTime(data.year, data.mon, data.day);
+		if(!dateCompareStrDateRange(data.yearMonthDay, fileRealDate, 1) || !dateCompareStrDateRange(fileRealDate, data.yearMonthDay, 1)) {
+			loadTimeLine = false;
+			data.relBeg = data.beg;
+			data.relEnd = data.end;
+			data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+			data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
+			data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+		}else {
+			loadTimeLine = true;
+			//The day before
+			if(fileDay < day || (day == 1 && fileDay <= 31 && fileDay >=28 )) {
+				data.relBeg = 0;
+				data.relEnd = Number(data.end) - 86400;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(data.relEnd);
+				data.timeTitle = data.beginDate + ' - ' + data.endDate;
+			}else if(fileDay == day && Number(data.end) > 86400)  {
+				//ay after day
+				data.relBeg = data.beg;
+				data.relEnd = 86399;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(Number(data.end) - 86400);
+				data.timeTitle = data.beginDate + ' - ' + data.endDate;
+			}else {
+				data.relBeg = data.beg;
+				data.relEnd = data.end;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
+				data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+			}
+		}
+	}
+	
+	//Convert to 2012-05-11 format, short time format
+	function dateFormat2DateString(date) {
+		var y=date.getFullYear(),m=date.getMonth(),d=date.getDate();
+		var str = y + "-" + dateFormatValue( m + 1) + "-" + dateFormatValue(d);
+		return str;
+	}
+	
+	//get file time
+	function getFileTime(year, mon, day) {
+		var retTime = "";
+		retTime += Number(year)+2000;
+		retTime += "-";
+		if(mon < 10) {
+			retTime += "0"+mon;
+		}else {
+			retTime += mon;
+		}
+		retTime += "-";
+		if(day < 10) {
+			retTime += "0"+day;
+		}else {
+			retTime += day;
+		}
+		return retTime;
+	}
+		
+	//Breakpoint download video file
+	function downloadVideoFile(id) {
+		if(id != null) {
+			if(!confirm(lang.allowed)){
+				return;
+			}
+			//Search and download the video file server information, after the successful download video file information
+			QueryServer(id,'down');
+		}
+	}	
+
+	//Query related server information
+	function QueryServer(id,type) {
+		var Idno;
+		var loc,loctext=$("#row"+id+" .loc div").text();
+		if(loctext==lang.Device){
+			loc="1";
+		}else if(loctext==lang.StorageServer){
+			loc="2";
+		}else if(loctext==lang.DownloadServer){
+			loc="4";
+		}
+		var svr=$("#row"+id+" .svr div").text();
+		var param = [];
+		if(loc == 1) {
+			Idno =$("#row"+id+" .devIdno div").text();
+			param.push({name: 'DevIDNO', value: Idno});
+		}else {
+			Idno =$("#row"+id+" .vehiIdno div").text();
+			param.push({name: 'DevIDNO', value: Idno});
+		}
+		param.push({name: 'Location', value: loc});
+		param.push({name: 'FileSvrID', value: svr});
+		param.push({name: 'jsession', value: jsion});
+		//Real time server information
+		$.ajax({
+			type:'POST',
+			url:'//'+ ip_ +':' + port_+'/3/1/callback=getData?MediaType=2&DownType=3',
+			data:param,
+			cache:false,
+			dataType: 'jsonp',
+			success: getData = function (data) {
+				if(data.result == 0){
+					if(type=='down'){
+						doDownloadVideoFileInfo( Idno, id, data.server);
+					}
+					else if(type=='replay'){
+						doReplayVehicleServer(id,Idno,loc,svr,data.server);
+					}
+				}else{
+					alert(lang.ServerQueryPrompt);
+				}
+			}
+		});
+	}
+		
+	//Download video file information
+	function doDownloadVideoFileInfo(Idno,id, dwServer) {
+		var devIdno = Idno;
+		var len = $("#row"+id+" .len div").text();
+		var file = $("#row"+id+" .file div").text();
+		var url = "//" + dwServer.clientIp +':'+ dwServer.clientPort + "/3/5?DownType=3";
+		url += "&DevIDNO="+ devIdno;
+		url += "&FLENGTH="+ len;
+		url += "&FOFFSET=0";
+		url += "&MTYPE=1";
+		url += "&FPATH="+ file;
+		var paths = file.split('/');
+		if (paths.length == 1) {
+			paths = file.split('\\');
+		}
+		url += "&SAVENAME="+ encodeURI(paths[paths.length - 1]);
+		window.open(url, "_blank");
+	}
+		
+	/**
+   	* Initialize video plug ins
+   	**/
+  	function initPlayerExample() {
+        //Video parameter
+        var params = {
+          allowFullscreen: "true",
+          allowScriptAccess: "always",
+          bgcolor: "#FFFFFF",
+          wmode: "transparent"
+        };
+        //Initialization is not completed
+        isInitFinished = false;
+        //Video card width
+        var width = "400";
+      	//Video card hight
+        var hieght = "400";
+        //Initialize flash
+        swfobject.embedSWF("player.swf", "cmsv6flash", width, hieght, "11.0.0", null, null, params, null);
+        initFlash();
+  	}
+		
+  	/**
+   	* After the completion of the completion of the plug-in
+   	**/
+  	function initFlash() {
+    	if (swfobject.getObjectById("cmsv6flash") == null ||
+         	typeof swfobject.getObjectById("cmsv6flash").setWindowNum == "undefined" ) {
+      		setTimeout(initFlash, 50);
+    	} else {
+    		//Initialize plugin language
+         	var language = $.trim($('.languagePath').val());
+         	if(!language) {
+         		$('.languagePath').focus();
+         		return;
+         	}
+          	swfobject.getObjectById("cmsv6flash").setLanguage(language);
+          	//Create all windows
+          	swfobject.getObjectById("cmsv6flash").setWindowNum(36);
+          	//Configuring the current window number
+          	var windowNum = 1;
+          	swfobject.getObjectById("cmsv6flash").setWindowNum(windowNum);
+          	swfobject.getObjectById("cmsv6flash").setServerInfo(serverIp, serverPort);
+          	isInitFinished = true;
+   		}
+  	}
+      	
+
+  	//Replay
+	function videoFileReplay(obj, id) {
+			QueryServer(id,'replay');
+	}
+
+  	//Access to video file playback server information
+  	function doReplayVehicleServer(id,Idno,loc,svr,dwServer){
+  		var beg=Number($("#row"+id+" .beg div").text());
+       	var eng=Number($("#row"+id+" .end div").text());
+       	var DValue=0;
+       	var chnStr=$("#row"+id+" .vehiChn div").text();
+       	var chn=chnStr.substring(2,chnStr.length)-1;
+       	var filename =$("#row"+id+" .file div").text();
+    	var lastindex=filename.lastIndexOf('/');
+    	var title=filename.substring(lastindex+1,filename.length);
+       	//Real time database access
+     	var url='//'+dwServer.clientIp +':'+ dwServer.clientPort+'/3/5?DownType=5&DevIDNO='+Idno+'&FILELOC='+loc+'&FILESVR='+svr+'&FILECHN='+chn+'&FILEBEG='+beg+'&FILEEND='+eng+'&PLAYIFRM=0&PLAYFILE='+filename+'&PLAYBEG=0&PLAYEND='+DValue+'&PLAYCHN=0';
+     	startPlayback(url,title);
+  	}
+
+    /**
+   	*Set window title
+   	**/
+  	function setWindowTitle(title) {
+      	if (!isInitFinished){
+          	return;
+      	} else {
+      		//窗口下标
+      		var index = 0;
+          	swfobject.getObjectById("cmsv6flash").setVideoInfo(index, title);
+      	}
+  	}	
+  
+    /**
+ 	 * Start remote playback
+ 	 **/
+ 	function startPlayback(url,title) {
+ 		if (!isInitFinished){
+          	return;
+      	} else {
+      		
+			setWindowTitle(title);
+      		//Window index
+      		var index = 0;
+      		//Stop before playback
+      		swfobject.getObjectById('cmsv6flash').stopVideo(index);
+      		//Start playback
+          	swfobject.getObjectById("cmsv6flash").startVod(index, url);
+      	}
+ 	}
+     	
+ 	/**
+ 	 * Stop remote playback
+ 	 **/
+ 	function stopPlayback() {
+ 		if (!isInitFinished){
+          	return;
+      	} else {
+      		//Window index
+      		var index = 0;
+          	swfobject.getObjectById("cmsv6flash").stopVideo(index);
+      	}
+ 	}
+ 	
+ 	/**
+  	 * Video plug-in language
+  	 **/
+  	function setVideoLanguage() {
+  		if (!isInitFinished){
+          	return;
+      	} else {
+      		//Language file
+      		var language = $.trim($('.languagePath').val());
+         	if(!language) {
+         		$('.languagePath').focus();
+         		return;
+         	}
+          	swfobject.getObjectById("cmsv6flash").setLanguage(language);
+      	}
+  	}
+	</script>
+</head>
+
+<body>
+	<div id="flashExample" style="overflow: hidden; height: 500px;">
+		<div id="cmsv6flash"></div>
+		<a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
+		<select style="width: 140px;display: none;" class="languagePath">
+    		<option>en.xml</option>
+    		<option>cn.xml</option>
+    	</select>
+		<a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings"
+			onclick="setVideoLanguage()">设置</a>
+	</div>
+	<div id="operateExample" style="position:absolute;width: 800px;">
+		<!--  用户登录开始 -->
+		<div class="userLogin">
+			<p id="getJsessionTitle">登录</p>
+			<div class="player-params">
+				<table class="player-params" style="text-align: right;">
+					<tr>
+						<td>
+							<a class="title" id="IPTitle">IP：</a>
+						</td>
+						<td>
+							<input style="width: 150px;" class="ip" value="127.0.0.1">
+	    				</td>
+						<td>
+							<a style="padding-left: 20px;" class="title" id="portTitle">端口：</a>
+						</td>
+						<td>
+							<input  style="width: 150px;" class="port"  value="6605">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a class="title" id="accountTitle">用户名：</a>
+						</td>
+						<td>
+							<input style="width: 150px;" class="account" value="">
+		    			</td>
+						<td>
+							<a style="padding-left: 20px;" class="title" id="passwordTitle">密码：</a>
+						</td>
+						<td>
+							<input type="password" style="width: 150px;" class="password" value="">
+		    			</td>
+					</tr>
+				</table>
+				<div class="player-param">
+					<a id="userLoginBtn" class="button button-primary button-rounded button-small">登录</a>
+				</div>
+			</div>
+		</div>
+		<!--  用户登录结束 -->
+
+		<!--  录像查询初始化开始  -->
+		<div class="videoInit">
+			<p id="Condition">查询条件</p>
+			<div class="player-params" style="width: 800px;">
+				<div class="player-param">
+					<a class="title" id="NumberPlates">车牌号：</a>
+					<select id="selnumber" style="width: 140px;">
+    					<!-- <option value='0'>请选择</option> -->
+    				</select>
+					<input id="namejsession" style="display:none;">
+					<div id="datepicker" style="display: none;"></div>
+					<span id="labelStartTime" style="padding-left: 20px;">开始时间：</span>
+					<input id="startTime" class="Wdate" type="text" style="width: 140px;" readonly="" size="15">
+					<span id="labelEndTime" style="padding-left: 20px;">结束时间：</span>
+					<input id="endTime" class="Wdate" type="text" style="width: 140px;" readonly="" size="15">
+					<div id="fileLocation" class="hf_box" style="line-height:30px; ">
+						<div>
+							<a id="filelocation" class="title">文件位置</a>
+							<label>
+							<input id="wjwz-device" type="radio" checked="" value="1" name="FileLocation">
+							<span id="spanDevice" class="title">终端设备</span>
+						</label>
+							<label>
+							<input id="wjwz-storage" type="radio" value="2" name="FileLocation">
+							<span id="spanStorageServer" class="title">存储服务器</span>
+						</label>
+							<label>
+							<input id="wjwz-download" type="radio" value="4" name="FileLocation">
+							<span id="spanDownloadServer" class="title">下载服务器</span>
+						</label>
+						</div>
+						<div>
+							<a id="filetype" class="title">文件类型</a>
+							<label>
+							<input id="wjlx-video" type="radio" checked="" value="2" name="FileType">
+							<span id="spanVideoType">录像</span>
+						</label>
+						</div>
+						<div>
+							<a id="VideoType">录像类型：</a>
+							<label>
+							<input id="lxlx-normal" type="radio" value="0" name="VideoType">
+							<span id="spanVideoNormal" class="title">常规</span>
+						</label>
+							<label>
+							<input id="lxlx-alarm" type="radio" value="1" name="VideoType">
+							<span id="spanVideoAlarm" class="title">报警</span>
+						</label>
+							<label>
+							<input id="lxlx-all" type="radio" checked="" value="-1" name="VideoType">
+							<span id="spanVideoAll" class="title">所有</span>
+						</label>
+						</div>
+					</div>
+					<a id="search" class="button button-primary button-rounded button-small settings"
+						onclick="Search()">搜索</a>
+				</div>
+			</div>
+		</div>
+		<!--  录像查询初始化结束  -->
+
+		<!--  录像查询  -->
+		<div class="playback" style="margin: 0;">
+			<p id="playbackTitle">录像查询</p>
+			<div class="player-params">
+				<div class="player-param">
+					<a id="queryresults" class="title windowIndex">查询结果：</a>
+				</div>
+				<div class="player-param" style="margin: 0;width: 800px;max-height:300px;overflow: auto;">
+					<textarea id="videosearch" style="width: 800px;height:250px; display: none;" class="playbackUrl"></textarea>
+					<div class="flexigrid" style="margin: 0;overflow: visible;">
+						<div class="d_table map_action">
+							<div class="map_drag_box">
+								<i class="icon icon_drag"></i>
+							</div>
+							<div class="gps_box">
+								<!-- 报表放这里 -->
+								<ul style="list-style-type:none;margin: 0;padding:0px;">
+									<!-- <li id="videoTime" class="active"></li> -->
+									<li id="videoFile">
+										<table id="videoFileTable"></table>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  录像查询  -->
+	</div>
+</body>
+
+</html>

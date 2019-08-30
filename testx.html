@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' type='text/css' media='screen' href='https://bootswatch.com/4/lux/bootstrap.min.css'>
+    <title>Document</title>
+
+
+</head>
+
+<body>
+
+    <h2> Testing Inner html</h2>
+    <button id="get" class="btn btn-info"> GET </button>
+    <select id="test" onchange="ChangeList()">
+
+    </select>
+
+
+</body>
+
+</html>
+
+<script>
+    document.getElementById('get').addEventListener('click', getVehicle_ID);
+    let urlx = ('http://tod-office2.ddns.net:8080/StandardApiAction_queryUserVehicle.action?jsession=cfd6768f-ae89-48c2-bb80-2f4d7205af15')
+    var myArray = ["x", "y", "z"];
+    console.log("LOG")
+    //let myArray = ["x", "y", "z"];
+    
+
+    function ChangeList() {
+        var List = document.getElementById("test").value;
+        console.log(List)
+    }
+
+
+    function getVehicle_ID() {
+        fetch(urlx)
+            .then((res) => res.json())
+            .then((data) => {
+
+                var company_id = data.companys[0].id
+                //console.log(company_id)
+                vehicles_id = data.vehicles[0].nm
+                console.log("vehicles_id " + vehicles_id)
+                myArray.push(vehicles_id)
+                console.log("dyn=" + myArray[0])
+
+                //document.getElementById('output2').innerHTML = vehicles_id;
+
+                $vehicles_id_x = vehicles_id
+
+                console.log("LOG")
+                //let myArray = ["x", "y", "z"];
+                let output
+               // myArray.push("BOX")
+                for (let i = 0; i < myArray.length; i++) {
+                    output += "<option value =" + myArray[i] + ">" + myArray[i] + "</option>";
+                    //console.log(i)
+                    //console.log(myArray[i])
+                }
+                document.getElementById("test").innerHTML = output;
+
+
+
+            })
+    }
+
+
+</script>

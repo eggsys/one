@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+        
+    <table>
+
+
+        <tr align="right">
+            <td> IP : </td>
+            <td> <input type="text" name="ip"></td>
+            <td> Port : </td>
+            <td> <input type="text" name="port" value="6605"></td>
+        </tr>
+        <tr align="right">
+            <td> Account : </td>
+            <td> <input type="text" name="Account"></td>
+            <td> Password : </td>
+            <td> <input type="text" name="password" placeholder="password"></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Submit">
+            </td>
+        </tr>
+    </table>
+
+    <button id="getText"> Get Jsession</button>  
+
+    <button id="getlog"> Get Log</button>
+
+    <button id="showlog"> Show Log</button>
+
+    <button id="getuser">getuser</button>
+    <div id="output"></div>
+
+
+
+    <script>
+        document.getElementById('getText').addEventListener('click',getText);
+        document.getElementById('getlog').addEventListener('click',getlog);
+        document.getElementById('showlog').addEventListener('click',showlog);
+        document.getElementById('getuser').addEventListener('click',getuser);
+
+      
+
+       
+        
+
+            function getText(){
+       fetch('http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin')
+        .then((res) => res.text())
+        .then((data) => {
+            document.getElementById('output').innerHTML = data;
+        })
+        .catch((err) => console.log(err))
+        }
+
+
+
+        function getlog(){
+             fetch('http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin')
+             .then(function(res){
+                 return res.text();
+            })
+             .then(function(data){
+                 console.log(data)
+            });
+         }
+
+        function showlog(){
+        fetch('http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin')
+        .then((res) => res.text())
+        .then((data) => console.log(data))
+                }
+        
+        function getuser(){
+        fetch('http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin')
+        .then((res) => res.json())
+        .then((data) =>{
+            let output = '<h2>Users</h2>'
+            console.log(data);
+        })
+        }
+       
+        
+
+
+    </script>
+
+
+
+</head>
+
+</html>
