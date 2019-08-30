@@ -1302,7 +1302,7 @@ echo '</script>';
     function addVideoFileInfo(json) {
         console.log(json)
         alert("1187")
-        console.log("Test JSON")
+        console.log("xTest JSONx")
         console.log(json)
         var files = new Array();
         console.log(files)
