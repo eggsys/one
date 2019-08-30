@@ -1306,7 +1306,7 @@ echo '</script>';
         console.log(json)
         var files = new Array();
         console.log(files)
-        if (1==1) {
+        if (json.files != null && json.files.length > 0) {
             //File list sort, according to the start time from small to large
             json.files.sort(function(a, b) {
                 return a.beg > b.beg ? 1 : -1
