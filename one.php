@@ -104,9 +104,9 @@ echo '</script>';
                 </td>
 
                 <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
-                <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2019-06-07T00:00" max="2019-09-31T00:00" onclick="time_start()"></td>
+                <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
                 <td> <label for="ending-time" style="width:50px;  text-align: center;">  TO  :</label></td>
-                <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2018-06-12T20:30" min="2019-06-07T00:00" max="2019-09-31T00:00" onclick="time_end()"></td>
+                <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()"></td>
             </tr>
         </table>
     </div>
@@ -285,10 +285,14 @@ echo '</script>';
     var file_location = 1;
     var File_type = 2;
     var Video_type = 1;
+    var format_startdate
+    var format_startdate2
+    var format_enddate2
+    
 
     var json;
     var jsion = ""; //Used to determine whether the landing
-    var ip_ = "182.52.204.163";
+    var ip_ = "125.27.95.236";
     var port_ = "6605";
     var isLanding = false; //To determine whether the landing
     var IsSearching = false; //To determine whether the search
@@ -528,13 +532,6 @@ echo '</script>';
     };
 
 
-
-
-
-
-
-
-
     function getJsession2() {
         fetch(login_url)
             .then((res) => res.json())
@@ -555,11 +552,8 @@ echo '</script>';
             })
             .then((DevID) => {
 
-                //console.log(Account)
-                //console.log("Jsession_id Latest" + jsession_ID)
                 let url = ('http://tod-office2.ddns.net:8080/StandardApiAction_queryUserVehicle.action?jsession=' + jsession_ID)
                 console.log(DevID)
-
                 console.log("ip=" + ip_)
                 console.log("port_=" + port_)
                 console.log("jsession_ID=" + jsession_ID)
@@ -568,10 +562,7 @@ echo '</script>';
             .then((VeID) => {
 
                 getVehicle_ID()
-                console.log("=========================")
-                console.log(vehicles_id)
-
-                
+                          
 
 
             })
@@ -583,12 +574,27 @@ echo '</script>';
             .then((res) => res.json())
             .then((data) => {
 
-                var company_id = data.companys[0].id
-                //console.log(company_id)
+                //console.log("Dataxxxxxxxxxxxxxxxxxx")
+                //console.log(data)
+                //console.log(typeof(data))
+                let count =  Object.keys(data.vehicles).length; 
+                //console.log(count) // count Vehicle[0].nm from API
+                let myArrLength = myArray.length
+                
+                //console.log("myArray length "+myArrLength)
+
+               if (myArrLength != 0 ) {
+                   myArray.length = 0 ;
+               }
+               console.log("myArray length2 "+myArrLength)
+                for (let i  = 0; i < count; i++) {
+                    //console.log(i)
+                var company_id = data.companys[0].id                
                 vehicles_id = data.vehicles[0].nm
                 console.log("vehicles_id " + vehicles_id)
                 myArray.push(vehicles_id)
-                
+                 }
+
                 let output2 = '<h2>Cars List</h2>';
                 output2 += ` 
                 <ul>
@@ -788,97 +794,47 @@ echo '</script>';
         FileType_val = document.getElementsByName('FileType').value;
         start_time = document.getElementById('meeting-time').value;
         end_time = document.getElementById('ending-time').value;
-
         var beginstr2 = $("#meeting-time").val();
         beginstr2 = beginstr2.replace(/-/g, "/");
-
         var str = beginstr2.split(" ");
         
-
-
         console.log("beginstr2::" + beginstr2)
         console.log("str::" + str)
-        
         var beginstr = $("FileLocation").val();
         var start_date = new Date(start_time);
         var end_date = new Date(end_time);
-
-
-
-
-
         var Full_year = start_date.getFullYear();
         var Full_month = start_date.getMonth();
         var Full_date = start_date.getDate();
         var Full_Hours = start_date.getHours();
         var Full_Minutes = start_date.getMinutes();
         var Full_Seconds = start_date.getSeconds();
-
-
         var Full_year2 = end_date.getFullYear();
         var Full_month2 = end_date.getMonth();
+        Full_month += 1
+        alert("Month" + Full_month)
+        Full_month2 += 1
+        alert("Month" + Full_month2)
         var Full_date2 = end_date.getDate();
         var Full_Hours2 = end_date.getHours();
         var Full_Minutes2 = end_date.getMinutes();
         var Full_Seconds2 = end_date.getSeconds();
-
-        var format_startdate = Full_year + "-" + Full_month + "-" + Full_date + "-" + Full_Hours + "-" + Full_Minutes + "-" + Full_Seconds
-        var format_startdate2 = Full_year + "-" + Full_month + "-" + Full_date + " " + Full_Hours + ":" + Full_Minutes + ":" + Full_Seconds
+        format_startdate = Full_year + "-" + Full_month + "-" + Full_date + "-" + Full_Hours + "-" + Full_Minutes + "-" + Full_Seconds
+        format_startdate2 = Full_year + "-" + Full_month + "-" + Full_date + " " + Full_Hours + ":" + Full_Minutes + ":" + Full_Seconds
         var format_enddate = Full_year2 + "-" + Full_month2 + "-" + Full_date2 + " " + 0 + ":" + 0 + ":" + 0
-        var format_enddate2 = Full_year2 + "-" + Full_month2 + "-" + Full_date2 + " " + Full_Hours2 + ":" + Full_Minutes2 + ":" + Full_Seconds2
+        format_enddate2 = Full_year2 + "-" + Full_month2 + "-" + Full_date2 + " " + Full_Hours2 + ":" + Full_Minutes2 + ":" + Full_Seconds2
         var HMS_b = Full_Hours + ":" + Full_Minutes + ":" + Full_Seconds
-        var HMS_e = Full_Hours2 + ":" + Full_Minutes2 + ":" + Full_Seconds2
-
-        //console.log("HMS_b" + HMS_b)
-        //console.log("HMS_e" + HMS_e)
-
-
-        // :::::::::::::::::::::: TEST :::::::::::::::::::::::::::::::
-        //console.log(format_startdate2)
-        //console.log(format_enddate2)
-
-
-
+    
         begstr = format_startdate2.split(" ");
         endstr = format_enddate2.split(" ");
-       // console.log(begstr[0] + "::2::" + begstr[1])
-
         var beg = shortHour2Second(begstr[1].toString());
         var end = shortHour2Second(endstr[1].toString());
-
-      //  console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
-
-
-        //console.log(begstr)
-        //console.log(begstr[1])
-        //console.log(endstr)
-        //console.log(endstr[1])
-        //console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
-
-
-
-        //var testbeg=shortHour2Second(begstr[1].toString());
         var temp = begstr[1].split(":")
         let parx = parseInt(20.0)
-
-        /*
-                console.log("HERE your result")
-                console.log(parx)
-                console.log("beg"+beg)
-        */
-        //console.log(testbeg)
         var strx = format_startdate.split("-");
-
-
-
         var radioFileLocation = $('input:radio[name="FileLocation"]:checked').val();
         var radioFileType = $('input:radio[name="FileType"]:checked').val();
         var radioVideoType = $('input:radio[name="VideoType"]:checked').val();
-
-
-        //console.log("824:::::::::" + radioFileLocation);
-
-
 
         var param = [];
         param.push({      name: 'MediaType',            value: 2
@@ -906,13 +862,6 @@ echo '</script>';
             name: 'Location',
             value: Number(radioFileLocation)
         });
-/*
-        console.log("xxxxxxxx840xxxxxxxxxxxx")
-        console.log("param ::" + param[0].value)
-        console.log("param ::" + param[1].value)
-        console.log("param ::" + param[2].value)
-        console.log("param ::" + param[3].value)
-*/
         $.ajax({
             type: 'POST',
             url: '//' + ip_ + ':' + port_ + '/3/1/callback=getData',
@@ -976,11 +925,11 @@ echo '</script>';
                     });
                     param2.push({
                         name: 'BEG',
-                        value: beg
+                        value: 0
                     });
                     param2.push({
                         name: 'END',
-                        value: end
+                        value: 86399
                     });
                     $.ajax({
                         type: 'POST',
@@ -1030,15 +979,10 @@ echo '</script>';
                     <li><b>File Location:</b> ${radioFileLocation}</li>
                     <li><b>File Type:</b> ${radioFileType}</li>
                     <li><b>Video Type:</b> ${radioVideoType}</li>
-                    <li><b>Start Time:</b> ${start_time}</li>
-                   
-                    
+                    <li><b>Start Time:</b> ${start_time}</li>                   
                     <li><b>End Time:</b> ${end_time}</li>
                     <li><b>Test:</b> ${beginstr2}</li>
-
-                    <li><b>Test Plate:</b> ${searchVehicle}</li>
-
-                   
+                    <li><b>Test Plate:</b> ${searchVehicle}</li>                  
                      <li><b>split :</b> ${strx}</li>
                      <li><b>split :</b> ${param}</li>
                 </ul>
@@ -1072,7 +1016,7 @@ echo '</script>';
 
 
     function addVideoFileInfo(json) {
-        console.log(json)
+        
         //alert("1074")
         console.log("xTest JSONx")
         console.log(json)
@@ -1091,6 +1035,8 @@ echo '</script>';
             for (var i = 0; i < json.files.length; i++) {
                 //The vehicle does not contain this channel, then the information i s removed.
                 var isAdd = true;
+                console.log("isadd")
+                console.log(json.files)
                 //Can download the task of the whole file download
                 //Multiple channel files, can only be downloaded
                 //ChnMask>0 according to the position to determine the number of channels CHN is also a number of channels
@@ -1175,6 +1121,105 @@ echo '</script>';
         data.maskChnNames = chnNames.toString();
         return data;
     }
+
+    function getAllChnName() {
+		var chnNames = [];
+		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+			var channels = vehicle.device.channels;
+			for (var i = 0; i < channels.length; i++) {
+				chnNames.push(channels[i].name);
+			}
+		}
+		return chnNames.toString();
+	}
+	
+	//Get the channel name
+	function getChnName(chn) {
+		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+			var channels = vehicle.device.channels;
+			for (var i = 0; i < channels.length; i++) {
+				if(chn == channels[i].index) {
+					return channels[i].name;
+				}
+			}
+		}
+    }
+    
+    function processFileDay(data) {
+		//File across the day before the day of the day or the day after the time
+		//To judge the day before the cross, if the date is the day before
+		var beginstr =$("#startTime").val();
+        beginstr = format_startdate2.replace(/-/g,"/");
+        
+        var begindate = new Date(beginstr);
+        console.log("Beginstr == "+beginstr)
+		data.yearMonthDay = dateFormat2DateString(begindate);
+		var day = Number(data.yearMonthDay.substring(8, 10));
+		var fileDay = Number(data.day);
+		var fileRealDate = getFileTime(data.year, data.mon, data.day);
+		if(!dateCompareStrDateRange(data.yearMonthDay, fileRealDate, 1) || !dateCompareStrDateRange(fileRealDate, data.yearMonthDay, 1)) {
+			loadTimeLine = false;
+			data.relBeg = data.beg;
+			data.relEnd = data.end;
+			data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+			data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
+			data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+		}else {
+			loadTimeLine = true;
+			//The day before
+			if(fileDay < day || (day == 1 && fileDay <= 31 && fileDay >=28 )) {
+				data.relBeg = 0;
+				data.relEnd = Number(data.end) - 86400;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(data.relEnd);
+				data.timeTitle = data.beginDate + ' - ' + data.endDate;
+			}else if(fileDay == day && Number(data.end) > 86400)  {
+				//ay after day
+				data.relBeg = data.beg;
+				data.relEnd = 86399;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(Number(data.end) - 86400);
+				data.timeTitle = data.beginDate + ' - ' + data.endDate;
+			}else {
+				data.relBeg = data.beg;
+				data.relEnd = data.end;
+				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
+				data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
+				data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+			}
+		}
+    }
+    
+
+    function dateFormat2DateString(date) {
+        var y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
+        console.log("Y = " +y)
+        console.log("M = " +m)
+        console.log("D = " +d)
+        //var str = y + "-" + dateFormatValue( m + 1) + "-" + dateFormatValue(d);
+        var strR = y + "-" + m + "-" + d
+        console.log(strR)
+		return strR;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
 
