@@ -24,11 +24,15 @@ echo '</script>';
     
     <link href="http://tod-office2.ddns.net:8080/bootstrap/css/button.css" type="text/css" rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='https://bootswatch.com/4/lux/bootstrap.min.css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="flexigrid.css">
+    <link href=" http://tod-office2.ddns.net:8080/808gps/open/css/video.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/808gps/css/labelIcon.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
     
     <script type="text/javascript" src="flexigrid.js"></script>
-    <script type="text/javascript" src="swfobject.js"></script>
+    <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/open/player/swfobject.js"></script>
 
 
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/js/lhgdialog.min.js"></script>
@@ -37,8 +41,7 @@ echo '</script>';
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/hashtable.js"></script>
     
 
-    <link href=" http://tod-office2.ddns.net:8080/808gps/open/css/video.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/808gps/css/labelIcon.css">
+   
     <style type="text/css">
 		.flexigrid .bDiv a {
 			margin: 0px 10px;
@@ -64,11 +67,27 @@ echo '</script>';
 </head>
 
 <body >
-    <!-- <button id="getjs2" class="btn btn-danger"> Show only JsessionX </button>
-    <div id="jsx" class="jumbotron"></div> -->
-    <button id="getjsessionapi" class="btn btn-danger"> get Jsession from API</button>
+    
+<div id="flashExample" style="overflow: hidden; height: 800px; width:800px;">
+		<div id="cmsv6flash"></div>
+		<a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
+		<select style="width: 140px;display: none;" class="languagePath">
+    		<option>en.xml</option>
+    		<option>cn.xml</option>
+    	</select>
+		<a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings"
+			onclick="setVideoLanguage()">设置</a>
+	</div>
+	<div id="operateExample" style="position:absolute;width: 800px;">
+		<!--  用户登录开始 -->
+		
+    
+
+    
+    <button id="getjsessionapi" class="btn btn-danger"> get Jsession from API</button> 
+    <button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Right</button>
     <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
-    <div id="output2" class="jumbotron">Your Car List will be here</div>
+    <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
     <!--
     <div id="outputxx" class="jumbotron"></div> 
 -->
@@ -79,14 +98,14 @@ echo '</script>';
             <tr>
                 <td> <label> CAR: </label> </td>
                 <td>
-                    <select id="test" onchange="ChangeList()">
+                    <select id="test" onchange="ChangeList()" style="width:100px;">
                         <option> ---Car--- </option>
                     </select>
                 </td>
 
-                <td><label for="meeting-time">Video Start:</label></td>
+                <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
                 <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2019-06-07T00:00" max="2019-09-31T00:00" onclick="time_start()"></td>
-                <td> <label for="ending-time"> TO :</label></td>
+                <td> <label for="ending-time" style="width:50px;  text-align: center;">  TO  :</label></td>
                 <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2018-06-12T20:30" min="2019-06-07T00:00" max="2019-09-31T00:00" onclick="time_end()"></td>
             </tr>
         </table>
@@ -161,14 +180,14 @@ echo '</script>';
 
     <button id="search" class="btn btn-info" style="width: 192px;" onclick="Search()">Search</button>
 
-
-    <div id="output3" class="jumbotron">Your data List will be here</div>
+    <h3>Output DATA</h2>
+    <div id="output3" class="jumbotron" style="position:relative; left:20px; top:2px;">Your data List will be here</div>
 
 
 
 
     <h3> Query Video </h2>
-        <div class="jumbotron" style="position:relative; left:20px; top:2px; ">
+        
 <!--
             <h4> Query Results: </h4>
             <table border="1" style="text-align:center;">
@@ -198,15 +217,15 @@ echo '</script>';
                 <source src="mov_bbb.ogg" type="video/ogg">
                 Your browser does not support HTML5 video.
             </video>
-    -->
-            <table id="videoFileTable"></table>
+    --> 
+           
+    
+           
 
-            </div>
-
-            <div id="flashExample" style=" height: 500px;">
+           <!-- <div id="flashExample" style=" height: 500px;"> -->
 
 
-            <h3> xxxxTESTxxxx</h3>
+            
 
 
             <div class="playback" style="margin: 0;">
@@ -215,8 +234,8 @@ echo '</script>';
 				<div class="player-param">
 					<a id="queryresults" class="title windowIndex">查询结果：</a>
 				</div>
-				<div class="player-param" style="margin: 0;width: 800px;max-height:300px;overflow: auto;">
-					<textarea id="videosearch" style="width: 800px;height:250px; display: none;" class="playbackUrl"></textarea>
+				<div class="player-param" style="margin: 0;width: 1000px;max-height:300px;overflow: auto;">
+					<textarea id="videosearch" style="width: 1000px;height:250px; display: none;" class="playbackUrl"></textarea>
 					<div class="flexigrid" style="margin: 0;overflow: visible;">
 						<div class="d_table map_action">
 							<div class="map_drag_box">
@@ -236,7 +255,7 @@ echo '</script>';
 				</div>
 			</div>
 		</div>
-            
+           
   		
 
 
@@ -269,7 +288,7 @@ echo '</script>';
 
     var json;
     var jsion = ""; //Used to determine whether the landing
-    var ip_ = "182.52.206.84";
+    var ip_ = "182.52.204.163";
     var port_ = "6605";
     var isLanding = false; //To determine whether the landing
     var IsSearching = false; //To determine whether the search
@@ -317,7 +336,7 @@ echo '</script>';
 			dataType: 'json',			
 			colModel : [	
 				{display: lang.operator, name : 'operator', width : 100, sortable : false, align: 'center'},
-				{display: lang.fileIndex, name : 'fileIndex', width : 40, sortable : false, align: 'center'},
+				{display: lang.fileIndex, name : 'fileIndex', width : 60, sortable : false, align: 'center'},
 				{display: lang.fileTime, name : 'fileTime', width : 150, sortable : false, align: 'center'},
 				{display: lang.Type, name : 'type', width : 150, sortable : false, align: 'center'},
 				{display: lang.spanDevice, name : 'vehiIdno', width : 150, sortable : false, align: 'center'},
@@ -552,7 +571,7 @@ echo '</script>';
                 console.log("=========================")
                 console.log(vehicles_id)
 
-                //console.log(dynamic)
+                
 
 
             })
@@ -569,8 +588,7 @@ echo '</script>';
                 vehicles_id = data.vehicles[0].nm
                 console.log("vehicles_id " + vehicles_id)
                 myArray.push(vehicles_id)
-                console.log("dyn=" + dynamic[0])
-
+                
                 let output2 = '<h2>Cars List</h2>';
                 output2 += ` 
                 <ul>
@@ -578,29 +596,18 @@ echo '</script>';
                     
                 </ul>
                     `;
-
                 document.getElementById('output2').innerHTML = output2;
-
                 $vehicles_id_x = vehicles_id
-
                 console.log("LOG")
-                //let myArray = ["x", "y", "z"];
                 let output
-                // myArray.push("BOX")
                 for (let i = 0; i < myArray.length; i++) {
-                    output += "<option value =" + myArray[i] + ">" + myArray[i] + "</option>";
-                    //console.log(i)
-                    //console.log(myArray[i])
+                output += "<option value =" + myArray[i] + ">" + myArray[i] + "</option>";
                 }
                 document.getElementById("test").innerHTML = output;
                 return vehicles_id
                 return dynamic
-
-
-
             })
     }
-
 
     function loadMapVehicleInfo(vehicles) {
         for (var i = 0; i < vehicles.length; i++) {
@@ -640,7 +647,6 @@ echo '</script>';
                                     chn.index = index;
                                     chn.name = chns[k];
                                     channels.push(chn);
-
                                     index++;
                                 }
                             }
@@ -659,31 +665,6 @@ echo '</script>';
         }
     }
 
-
-
-
-/*
-
-    function getOption() {
-        let output
-        for (let i = 0; i < dynamic.length; i++) {
-            output += "<option value =" + dynamic[i] + ">" + dynamic[i] + "</option>";
-            console.log(i)
-            console.log(dynamic[i])
-        }
-        document.getElementById("test").innerHTML = output;
-    }
-
-    function endtest() {
-
-        var delayInMilliseconds = 5000; //1 second
-
-        setTimeout(function() {
-            console.log("dynamic" + dynamic[1])
-        }, delayInMilliseconds);
-
-    }
-*/
 
     function ChangeList() {
         var carList = document.getElementById("test").value;
@@ -787,7 +768,7 @@ echo '</script>';
 
     function Search() {
 
-        //alert(jsession_ID)
+        
         if (jsession_ID == "") {
             alert("You are not logged in, please login!");
             return;
@@ -812,12 +793,12 @@ echo '</script>';
         beginstr2 = beginstr2.replace(/-/g, "/");
 
         var str = beginstr2.split(" ");
-        //var beg=shortHour2Second(str[1].toString());
+        
 
 
         console.log("beginstr2::" + beginstr2)
         console.log("str::" + str)
-        //conosle.log("beg::",beg)
+        
         var beginstr = $("FileLocation").val();
         var start_date = new Date(start_time);
         var end_date = new Date(end_time);
@@ -848,31 +829,31 @@ echo '</script>';
         var HMS_b = Full_Hours + ":" + Full_Minutes + ":" + Full_Seconds
         var HMS_e = Full_Hours2 + ":" + Full_Minutes2 + ":" + Full_Seconds2
 
-        console.log("HMS_b" + HMS_b)
-        console.log("HMS_e" + HMS_e)
+        //console.log("HMS_b" + HMS_b)
+        //console.log("HMS_e" + HMS_e)
 
 
         // :::::::::::::::::::::: TEST :::::::::::::::::::::::::::::::
-        console.log(format_startdate2)
-        console.log(format_enddate2)
+        //console.log(format_startdate2)
+        //console.log(format_enddate2)
 
 
 
         begstr = format_startdate2.split(" ");
         endstr = format_enddate2.split(" ");
-        console.log(begstr[0] + "::2::" + begstr[1])
+       // console.log(begstr[0] + "::2::" + begstr[1])
 
         var beg = shortHour2Second(begstr[1].toString());
         var end = shortHour2Second(endstr[1].toString());
 
-        console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
+      //  console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
 
 
-        console.log(begstr)
-        console.log(begstr[1])
-        console.log(endstr)
-        console.log(endstr[1])
-        console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
+        //console.log(begstr)
+        //console.log(begstr[1])
+        //console.log(endstr)
+        //console.log(endstr[1])
+        //console.log("::::::::::::::::::::::::TEST:::::::::::::::::::::")
 
 
 
@@ -889,62 +870,22 @@ echo '</script>';
         var strx = format_startdate.split("-");
 
 
-//sssssssssss
-
-        /*
-                // :::::::::::::::::::::: TEST :::::::::::::::::::::::::::::::
-
-                //var beg=shortHour2Second(HMS_b.toString());
-                console.log("format2 :::::"+format_startdate2);
-                var strx = format_startdate.split("-");
-                var begx = shortHour2Second(strx[0].toString());
-                let int1 = parseInt(strx[0])
-                let float = parseFloat(int1)
-                console.log("int1 :>"+int1)
-                console.log(int1*3600.5)
-                console.log(typeof(int1))
-
-                console.log("float :>"+float)
-                console.log(float*3600.5)
-                console.log(typeof(float))
-
-
-
-
-                let typeo = typeof(strx[0])
-        */
-        /*
-                console.log("TYPE - "+typeo )
-                console.log(strx)
-                console.log(strx[0])
-                console.log("begx ::::"+begx)
-
-                
-                console.log("beginstr:", beginstr)
-                console.log("ft:", File_type)
-        */
 
         var radioFileLocation = $('input:radio[name="FileLocation"]:checked').val();
         var radioFileType = $('input:radio[name="FileType"]:checked').val();
         var radioVideoType = $('input:radio[name="VideoType"]:checked').val();
 
 
-        console.log("824:::::::::" + radioFileLocation);
+        //console.log("824:::::::::" + radioFileLocation);
 
 
 
         var param = [];
-        param.push({
-            name: 'MediaType',
-            value: 2
+        param.push({      name: 'MediaType',            value: 2
         });
-        param.push({
-            name: 'DownType',
-            value: 2
+        param.push({            name: 'DownType',            value: 2
         });
-        param.push({
-            name: 'jsession',
-            value: jsession_ID
+        param.push({            name: 'jsession',            value: jsession_ID
         });
 
         if (radioFileLocation != 1) { //PASS
@@ -952,7 +893,7 @@ echo '</script>';
                 name: 'DevIDNO',
                 value: searchVehicle.toString()
             });
-            //console.log("xxxxxxxxxxxxxx:Pass IF"+radioFileLocation)
+            
         } else {
             param.push({
                 name: 'DevIDNO',
@@ -965,13 +906,13 @@ echo '</script>';
             name: 'Location',
             value: Number(radioFileLocation)
         });
-
+/*
         console.log("xxxxxxxx840xxxxxxxxxxxx")
         console.log("param ::" + param[0].value)
         console.log("param ::" + param[1].value)
         console.log("param ::" + param[2].value)
         console.log("param ::" + param[3].value)
-
+*/
         $.ajax({
             type: 'POST',
             url: '//' + ip_ + ':' + port_ + '/3/1/callback=getData',
@@ -979,20 +920,14 @@ echo '</script>';
             cache: false,
             dataType: 'jsonp',
             success: getData = function(data) {
-                console.log("data ==" + data)
-                alert("972")
+                console.log(data)
+                console.log("911")
+                console.log(param)
                 if (data.result == 0) {
                     console.log("xxxAJAXxx")
                     console.log(json)
                     serverIp = data.server.clientIp;
                     serverPort = data.server.clientPort;
-
-                    /*console.log("====================")
-
-                    console.log(serverIp)
-                    console.log(serverPort)
-                    console.log("====================")
-                    */
 
                     var param2 = [];
                     param2.push({
@@ -1017,20 +952,12 @@ echo '</script>';
                         });
                         console.log("AJAX 1007")
                         console.log(param2)
+                        console.log(json)
 
                     }
-                    param2.push({
-                        name: 'LOC',
-                        value: Number(radioFileLocation)
-                    });
-                    param2.push({
-                        name: 'CHN',
-                        value: -1
-                    });
-                    param2.push({
-                        name: 'YEAR',
-                        value: Number(Full_year)
-                    });
+                    param2.push({ name: 'LOC',value: Number(radioFileLocation) });
+                    param2.push({ name: 'CHN',value: -1 });
+                    param2.push({ name: 'YEAR',value: Number(Full_year) });
                     param2.push({
                         name: 'MON',
                         value: Number(Full_month)
@@ -1057,7 +984,7 @@ echo '</script>';
                     });
                     $.ajax({
                         type: 'POST',
-                        url: '//' + serverIp + ':' + serverPort + '/3/5/callback=getData',
+                        url: '//' + serverIp + ':' + serverPort + '/3/5/callback=getData', //callback from device 
                         data: param2,
                         cache: false,
                         dataType: 'jsonp',
@@ -1067,9 +994,10 @@ echo '</script>';
                             if (data.result == 0) {
                                 console.log("quering")
                                 console.log(param2)
+                                console.log(json)
                                 addVideoFileInfo(json);
                             } else {
-                                alert(lang.VideoQueryPrompt);
+                                alert(VideoQueryPrompt);
                             }
                             IsSearching = false;
                             $("#search").text("> > > SEARCHING > > >");
@@ -1078,7 +1006,7 @@ echo '</script>';
                 } else {
                     alert("Related server information query failed!");
                     IsSearching = false;
-                    $("#search").text("< < < SEARCHING > > >");
+                    $("#search").text("< < < FAIL > > >");
                 }
             }
         });
@@ -1087,16 +1015,16 @@ echo '</script>';
 
 
         //searchVehicle
-
+/*
         console.log("xxxFile_locationxxx ==", radioFileLocation)
         console.log("xxxradioFileTypexxx ==", radioFileType)
         console.log("xxxradioVideoTypexxx ==", radioVideoType)
 
         console.log("Param ::>", param[4].value);
+*/
 
 
-
-        let outputX = '<h2>Output DATA</h2>';
+        let outputX = '<h2>DATA</h2>';
         outputX += ` 
                 <ul>
                     <li><b>File Location:</b> ${radioFileLocation}</li>
@@ -1145,7 +1073,7 @@ echo '</script>';
 
     function addVideoFileInfo(json) {
         console.log(json)
-        alert("1187")
+        //alert("1074")
         console.log("xTest JSONx")
         console.log(json)
         var files = new Array();
@@ -1275,10 +1203,13 @@ echo '</script>';
     function initFlash() {
         if (swfobject.getObjectById("cmsv6flash") == null ||
             typeof swfobject.getObjectById("cmsv6flash").setWindowNum == "undefined") {
+            
             setTimeout(initFlash, 50);
         } else {
             //Initialize plugin language
+            //alert("Else")
             var language = $.trim($('.languagePath').val());
+            //alert(language)
             if (!language) {
                 $('.languagePath').focus();
                 return;
