@@ -24,10 +24,11 @@ echo '</script>';
     
     <link href="http://tod-office2.ddns.net:8080/bootstrap/css/button.css" type="text/css" rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='https://bootswatch.com/4/lux/bootstrap.min.css'>
-    <link rel="stylesheet" type="text/css" href="flexigrid.css">
+    
     <link href=" http://tod-office2.ddns.net:8080/808gps/open/css/video.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/808gps/css/labelIcon.css">
-
+    <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/js/flexigrid/flexigrid.css">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     
@@ -130,14 +131,6 @@ echo '</script>';
 
         </div>
 
-
-
-
-
-        <!-- <hr>
-        <div id="result"></div>
-        <hr> -->
-
         <div>
             <a id="filetype" class="title">File Type:</a>
             <label>
@@ -145,9 +138,7 @@ echo '</script>';
                 <span id="spanVideoType">Videotape</span>
             </label>
         </div>
-        <!-- <hr>
-        <div id="Fileresult"></div>
-        <hr> -->
+        
 
         <div>
             <a id="VideoType">Video Type:</a>
@@ -164,21 +155,10 @@ echo '</script>';
                 <span id="spanVideoAll" class="title">All</span>
             </label>
         </div>
-        <!-- <hr>
-        <div id="vdoresult"></div>
-        <hr> -->
+        <
     </div>
 
-    <!--
-    <div>
-        <span id="labelStartTime" style="padding-left: 20px;">Start：</span>
-        <input id="startTime" class="Wdate" type="text" style="width: 140px;" readonly="" size="15">
-        <span id="labelEndTime" style="padding-left: 20px;">End：</span>
-        <input id="endTime" class="Wdate" type="text" style="width: 140px;" readonly="" size="15">
-    </div>
-
-    -->
-
+   
     <button id="search" class="btn btn-info" style="width: 192px;" onclick="Search()">Search</button>
 
     <h3>Output DATA</h2>
@@ -189,45 +169,6 @@ echo '</script>';
 
     <h3> Query Video </h2>
         
-<!--
-            <h4> Query Results: </h4>
-            <table border="1" style="text-align:center;">
-                <th width="100" height="30"> Index </th>
-                <th width="100"> Operator </th>
-                <th width="100"> Time </th>
-                <th width="100"> VideoType </th>
-                <th width="250"> TerminalEquipment </th>
-                <th width="100"> Channel </th>
-                <th width="100"> FileLocation </th>
-                <th width="100"> Size(MB) </th>
-
-            </table>
-    -->
-        
-
-      
-        <!--
-        <div style="text-align:center">
-            <button onclick="playPause()">Play/Pause</button>
-            <button onclick="makeBig()">Big</button>
-            <button onclick="makeSmall()">Small</button>
-            <button onclick="makeNormal()">Normal</button>
-            <br><br>
-            <video id="video1" width="420">
-                <source src="mov_bbb.mp4" type="video/mp4">
-                <source src="mov_bbb.ogg" type="video/ogg">
-                Your browser does not support HTML5 video.
-            </video>
-    --> 
-           
-    
-           
-
-           <!-- <div id="flashExample" style=" height: 500px;"> -->
-
-
-            
-
 
             <div class="playback" style="margin: 0;">
 			<p id="playbackTitle">录像查询</p>
@@ -341,13 +282,13 @@ echo '</script>';
 			dataType: 'json',			
 			colModel : [	
 				{display: lang.operator, name : 'operator', width : 100, sortable : false, align: 'center'},
-				{display: lang.fileIndex, name : 'fileIndex', width : 60, sortable : false, align: 'center'},
+				{display: lang.fileIndex, name : 'fileIndex', width : 40, sortable : false, align: 'center'},
 				{display: lang.fileTime, name : 'fileTime', width : 150, sortable : false, align: 'center'},
-				{display: lang.Type, name : 'type', width : 150, sortable : false, align: 'center'},
-				{display: lang.spanDevice, name : 'vehiIdno', width : 150, sortable : false, align: 'center'},
-				{display: lang.vehiChn, name : 'vehiChn', width : 170, sortable : false, align: 'center'},
+				{display: lang.Type, name : 'type', width : 80, sortable : false, align: 'center'},
+				{display: lang.spanDevice, name : 'vehiIdno', width : 100, sortable : false, align: 'center'},
+				{display: lang.vehiChn, name : 'vehiChn', width : 70, sortable : false, align: 'center'},
 				{display: lang.loc, name : 'loc', width : 80, sortable : false, align: 'center'},
-				{display: lang.fileSize, name : 'fileSize', width : 150, sortable : false, align: 'center'},
+				{display: lang.fileSize, name : 'fileSize', width : 80, sortable : false, align: 'center'},
 				{display: lang.file ,name: 'file', width : 380,sortable : false, align: 'center'},
 				{display: 'svr' ,name: 'svr',hide : true},
 				{display: 'devIdno' ,name: 'devIdno',hide : true },
@@ -386,8 +327,6 @@ echo '</script>';
         });
 
     });
-
-
 
     //Define English name
     function langEn() {
@@ -538,8 +477,6 @@ echo '</script>';
             .then((res) => res.json())
             .then((data) => {
 
-                //var jsx = data.jsession
-                //var acc = data.account_name
                 jsession_ID = data.jsession //used
                 Account = data.account_name //used
                 json = jsession_ID
@@ -548,7 +485,6 @@ echo '</script>';
                 document.getElementById('output').innerHTML = jsession_ID;
                 return data2 = data
                 return Account
-
                 return jsession_ID
             })
             .then((DevID) => {
@@ -561,11 +497,7 @@ echo '</script>';
                 return urlx = url
             })
             .then((VeID) => {
-
-                getVehicle_ID()
-                          
-
-
+                getVehicle_ID()                   
             })
                   
     }
@@ -746,35 +678,19 @@ echo '</script>';
     function checkFiletype() {
         var radios = document.getElementsByName('Filetype');
 
-        /*for (var i = 0, length = radios.length; i < length; i++) {
-            if (radios[i].checked) {
-                // do whatever you want with the checked radio
-                alert(radios[i].value);
-                var FileType = radios[i].value
-                document.getElementById("Fileresult").innerHTML = "FileType: " + FileType;
-                // only one radio can be logically checked, don't check the rest
-                break;
-            }
-        }
-        */
-
+    
         File_type = 1
         //document.getElementById("Fileresult").innerHTML = "FileType: " + FileType;
         console.log("FileType", File_type);
 
     }
 
-
-
-
     function time_start() {
         var start_time = document.getElementById('meeting-time').value;
         console.log("Start time : >", start_time)
-
     }
 
     function Search() {
-
         
         if (jsession_ID == "") {
             alert("You are not logged in, please login!");
@@ -788,9 +704,6 @@ echo '</script>';
         var number = $("#test  option:selected").text();
         var id = $("#test  option:selected").val();
         searchVehicle = number;
-
-
-
         var yy = document.getElementsByName('FileLocation').values
         FileType_val = document.getElementsByName('FileType').value;
         start_time = document.getElementById('meeting-time').value;
@@ -798,7 +711,6 @@ echo '</script>';
         var beginstr2 = $("#meeting-time").val();
         beginstr2 = beginstr2.replace(/-/g, "/");
         var str = beginstr2.split(" ");
-        
         console.log("beginstr2::" + beginstr2)
         console.log("str::" + str)
         var beginstr = $("FileLocation").val();
@@ -836,7 +748,6 @@ echo '</script>';
         var radioFileLocation = $('input:radio[name="FileLocation"]:checked').val();
         var radioFileType = $('input:radio[name="FileType"]:checked').val();
         var radioVideoType = $('input:radio[name="VideoType"]:checked').val();
-
         var param = [];
         param.push({      name: 'MediaType',            value: 2
         });
@@ -961,17 +872,6 @@ echo '</script>';
             }
         });
 
-
-
-
-        //searchVehicle
-/*
-        console.log("xxxFile_locationxxx ==", radioFileLocation)
-        console.log("xxxradioFileTypexxx ==", radioFileType)
-        console.log("xxxradioVideoTypexxx ==", radioVideoType)
-
-        console.log("Param ::>", param[4].value);
-*/
 
 
         let outputX = '<h2>DATA</h2>';
@@ -1204,27 +1104,6 @@ echo '</script>';
 		return strR;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
     function initPlayerExample() {
         console.log("Inint video player is work")
         //Video parameter
@@ -1452,28 +1331,6 @@ echo '</script>';
         
         
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     var myVideo = document.getElementById("video1");
 
