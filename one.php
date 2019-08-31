@@ -39,6 +39,7 @@ echo '</script>';
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/js/public.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/myajax.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/hashtable.js"></script>
+    <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/date.js"></script>
     
 
    
@@ -1085,8 +1086,7 @@ echo '</script>';
                 $(".flexigrid div.bDiv").css('max-height', '264px');
             }
         }
-        console.log("HERE ITs FAILURE");
-        if (json.result == 0) {
+            if (json.result == 0) {
             if (files.length <= 0) {
                 $.dialog.tips(lang.NullVideoFileInfo, 2);
             }
@@ -1198,7 +1198,7 @@ echo '</script>';
         console.log("Y = " +y)
         console.log("M = " +m)
         console.log("D = " +d)
-        //var str = y + "-" + dateFormatValue( m + 1) + "-" + dateFormatValue(d);
+        var str = y + "-" + dateFormatValue( m + 1) + "-" + dateFormatValue(d);
         var strR = y + "-" + m + "-" + d
         console.log(strR)
 		return strR;
@@ -1287,7 +1287,37 @@ echo '</script>';
        	//Real time database access
      	var url='//'+dwServer.clientIp +':'+ dwServer.clientPort+'/3/5?DownType=5&DevIDNO='+Idno+'&FILELOC='+loc+'&FILESVR='+svr+'&FILECHN='+chn+'&FILEBEG='+beg+'&FILEEND='+eng+'&PLAYIFRM=0&PLAYFILE='+filename+'&PLAYBEG=0&PLAYEND='+DValue+'&PLAYCHN=0';
      	startPlayback(url,title);
-  	}
+      }
+      
+
+      function doDownloadVideoFileInfo(Idno,id, dwServer) {
+		var devIdno = Idno;
+		var len = $("#row"+id+" .len div").text();
+		var file = $("#row"+id+" .file div").text();
+		var url = "//" + dwServer.clientIp +':'+ dwServer.clientPort + "/3/5?DownType=3";
+		url += "&DevIDNO="+ devIdno;
+		url += "&FLENGTH="+ len;
+		url += "&FOFFSET=0";
+		url += "&MTYPE=1";
+		url += "&FPATH="+ file;
+		var paths = file.split('/');
+		if (paths.length == 1) {
+			paths = file.split('\\');
+		}
+		url += "&SAVENAME="+ encodeURI(paths[paths.length - 1]);
+		window.open(url, "_blank");
+	}
+
+
+
+
+
+
+
+
+
+
+
 
     /**
    	*Set window title
