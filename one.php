@@ -499,7 +499,8 @@ echo '</script>';
             .then((VeID) => {
                 getVehicle_ID()                   
             })
-                  
+           
+            //test
     }
 
     function getVehicle_ID() {
