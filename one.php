@@ -20,18 +20,18 @@ echo '</script>';
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>MDVR Playback</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    
-    
+
+
     <link href="http://tod-office2.ddns.net:8080/bootstrap/css/button.css" type="text/css" rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='https://bootswatch.com/4/lux/bootstrap.min.css'>
-    
-    <link href=" http://tod-office2.ddns.net:8080/808gps/open/css/video.css" type="text/css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="video2.css">
     <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/808gps/css/labelIcon.css">
     <link rel="stylesheet" type="text/css" href="http://tod-office2.ddns.net:8080/js/flexigrid/flexigrid.css">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
-    
+
+
     <script type="text/javascript" src="flexigrid.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/open/player/swfobject.js"></script>
 
@@ -41,176 +41,172 @@ echo '</script>';
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/myajax.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/hashtable.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/date.js"></script>
-    
+
+
+
+    <style type="text/css">
+        .flexigrid .bDiv a {
+            margin: 0px 10px;
+            outline: 0 none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .flexigrid {
+            overflow: visible;
+        }
+    </style>
+
+
+
+
 
    
-    <style type="text/css">
-		.flexigrid .bDiv a {
-			margin: 0px 10px;
-			outline: 0 none;
-			text-decoration: none;
-			cursor: pointer;
-		}
-
-		.flexigrid {
-			overflow: visible;
-        }
-        
-    </style>
-    
 
 
-
-    
-    <script src="videoplayer.js"></script>
-     
-    
-    
 </head>
 
-<body >
+<body>
+<center>
+    <div id="flashExample" style="overflow: hidden; height: 400px; width:400px;"> </div>
+    <div id="cmsv6flash" style=" height: 400px; width:400px;">  </div>
+</center>        
+
+        <a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
+        <select style="width: 140px;display: none;" class="languagePath">
+            <option>en.xml</option>
+            <option>cn.xml</option>
+        </select>
+        <a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings" onclick="setVideoLanguage()">设置</a>
+    </div>
     
-<div id="flashExample" style="overflow: hidden; height: 800px; width:800px;">
-		<div id="cmsv6flash"></div>
-		<a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
-		<select style="width: 140px;display: none;" class="languagePath">
-    		<option>en.xml</option>
-    		<option>cn.xml</option>
-    	</select>
-		<a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings"
-			onclick="setVideoLanguage()">设置</a>
-	</div>
-	<div id="operateExample" style="position:absolute;width: 800px;">
-		<!--  用户登录开始 -->
-		
+    <div id="operateExample" style="position:absolute;width: 100%;">
+        <!--  用户登录开始 -->
     
 
-    
-    <button id="getjsessionapi" class="btn btn-danger"> get Jsession from API</button> 
-    <button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Right</button>
-    <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
-    <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
-    <!--
+
+
+        <button id="getjsessionapi" class="btn btn-danger"> get Jsession from API</button>
+       
+        <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
+        
+         <!-- Show Dev id Test -->
+        <!--
+        <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
+         -->
+        <!--
     <div id="outputxx" class="jumbotron"></div> 
 -->
 
 
-    <div>
-        <table>
-            <tr>
-                <td> <label> CAR: </label> </td>
-                <td>
-                    <select id="test" onchange="ChangeList()" style="width:100px;">
-                        <option> ---Car--- </option>
-                    </select>
-                </td>
+        <div>
+            <table>
+                <tr>
+                    <td> <label> CAR: </label> </td>
+                    <td>
+                        <select id="test" onchange="ChangeList()" style="width:100px;">
+                            <option> ---Car--- </option>
+                        </select>
+                    </td>
 
-                <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
-                <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
-                <td> <label for="ending-time" style="width:50px;  text-align: center;">  TO  :</label></td>
-                <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()"></td>
-            </tr>
-        </table>
+                    <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
+                    <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
+                    <td> <label for="ending-time" style="width:50px;  text-align: center;"> TO :</label></td>
+                    <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="fileLocation" class="custom-control custom-radio" style="line-height:30px; ">
+            <div>
+                <a id="filelocation" class="title">File Location:</a>
+                <label>
+                    <input id="wjwz-device" type="radio" checked="" value="1" name="FileLocation" onchange="checkRadioValue()">
+                    <span id="spanDevice" class="title">TerminalEquipment</span>
+                </label>
+                <label>
+                    <input id="wjwz-storage" type="radio" value="2" name="FileLocation" onchange="checkRadioValue()">
+                    <span id="spanStorageServer" class="title">StorageServer</span>
+                </label>
+                <label>
+                    <input id="wjwz-download" type="radio" value="4" name="FileLocation" onchange="checkRadioValue()">
+                    <span id="spanDownloadServer" class="title">DownloadServer</span>
+                </label>
+
+            </div>
+
+            <div>
+                <a id="filetype" class="title">File Type:</a>
+                <label>
+                    <input id="wjlx-video" type="radio" checked="" value="2" name="FileType" onchange="checkFiletype()">
+                    <span id="spanVideoType">Videotape</span>
+                </label>
+            </div>
+
+
+            <div>
+                <a id="VideoType">Video Type:</a>
+                <label>
+                    <input id="lxlx-normal" type="radio" value="0" name="VideoType" onchange=" checkVideotype()">
+                    <span id="spanVideoNormal" class="title">Routine</span>
+                </label>
+                <label>
+                    <input id="lxlx-alarm" type="radio" value="1" name="VideoType" onchange=" checkVideotype()">
+                    <span id="spanVideoAlarm" class="title">Alarm</span>
+                </label>
+                <label>
+                    <input id="lxlx-all" type="radio" checked="" value="-1" name="VideoType" onchange=" checkVideotype()">
+                    <span id="spanVideoAll" class="title">All</span>
+                </label>
+            </div>
+
+        </div>
+
+
+        <button id="search" class="btn btn-info" style="width: 192px;" onclick="Search()">Search</button>
+        <!-- Output Test -->
+        <!--   
+        <h3>Output DATA</h2>
+            <div id="output3" class="jumbotron" style="position:relative; left:20px; top:2px;">Your data List will be here</div>
+        -->
+            <h3> Query Video </h2>
+
+
+                <div class="playback" style="margin: 0;">
+                    <p id="playbackTitle">录像查询</p>
+                    <div class="player-params">
+                        <div class="player-param">
+                            <a id="queryresults" class="title windowIndex">查询结果：</a>
+                        </div>
+                        <div class="player-param" style="margin: 0;width: 1300px;max-height:300px;overflow: auto;">
+                            <textarea id="videosearch" style="width: 1000px;height:250px; display: none;" class="playbackUrl"></textarea>
+                            <div class="flexigrid" style="margin: 0;overflow: visible;">
+                                <div class="d_table map_action">
+                                    <div class="map_drag_box">
+                                        <i class="icon icon_drag"></i>
+                                    </div>
+                                    <div class="gps_box">
+                                        <!-- 报表放这里 -->
+                                        <ul style="list-style-type:none;margin: 0;padding:0px;">
+                                            <!-- <li id="videoTime" class="active"></li> -->
+                                            <li id="videoFile">
+                                                <table id="videoFileTable"></table>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     </div>
-
-    <div id="fileLocation" class="custom-control custom-radio" style="line-height:30px; ">
-        <div>
-            <a id="filelocation" class="title">File Location:</a>
-            <label>
-                <input id="wjwz-device" type="radio" checked="" value="1" name="FileLocation" onchange="checkRadioValue()">
-                <span id="spanDevice" class="title">TerminalEquipment</span>
-            </label>
-            <label>
-                <input id="wjwz-storage" type="radio" value="2" name="FileLocation" onchange="checkRadioValue()">
-                <span id="spanStorageServer" class="title">StorageServer</span>
-            </label>
-            <label>
-                <input id="wjwz-download" type="radio" value="4" name="FileLocation" onchange="checkRadioValue()">
-                <span id="spanDownloadServer" class="title">DownloadServer</span>
-            </label>
-
-        </div>
-
-        <div>
-            <a id="filetype" class="title">File Type:</a>
-            <label>
-                <input id="wjlx-video" type="radio" checked="" value="2" name="FileType" onchange="checkFiletype()">
-                <span id="spanVideoType">Videotape</span>
-            </label>
-        </div>
-        
-
-        <div>
-            <a id="VideoType">Video Type:</a>
-            <label>
-                <input id="lxlx-normal" type="radio" value="0" name="VideoType" onchange=" checkVideotype()">
-                <span id="spanVideoNormal" class="title">Routine</span>
-            </label>
-            <label>
-                <input id="lxlx-alarm" type="radio" value="1" name="VideoType" onchange=" checkVideotype()">
-                <span id="spanVideoAlarm" class="title">Alarm</span>
-            </label>
-            <label>
-                <input id="lxlx-all" type="radio" checked="" value="-1" name="VideoType" onchange=" checkVideotype()">
-                <span id="spanVideoAll" class="title">All</span>
-            </label>
-        </div>
-        <
-    </div>
-
-   
-    <button id="search" class="btn btn-info" style="width: 192px;" onclick="Search()">Search</button>
-
-    <h3>Output DATA</h2>
-    <div id="output3" class="jumbotron" style="position:relative; left:20px; top:2px;">Your data List will be here</div>
-
-
-
-
-    <h3> Query Video </h2>
-        
-
-            <div class="playback" style="margin: 0;">
-			<p id="playbackTitle">录像查询</p>
-			<div class="player-params">
-				<div class="player-param">
-					<a id="queryresults" class="title windowIndex">查询结果：</a>
-				</div>
-				<div class="player-param" style="margin: 0;width: 1000px;max-height:300px;overflow: auto;">
-					<textarea id="videosearch" style="width: 1000px;height:250px; display: none;" class="playbackUrl"></textarea>
-					<div class="flexigrid" style="margin: 0;overflow: visible;">
-						<div class="d_table map_action">
-							<div class="map_drag_box">
-								<i class="icon icon_drag"></i>
-							</div>
-							<div class="gps_box">
-								<!-- 报表放这里 -->
-								<ul style="list-style-type:none;margin: 0;padding:0px;">
-									<!-- <li id="videoTime" class="active"></li> -->
-									<li id="videoFile">
-										<table id="videoFileTable"></table>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-           
-  		
-
-
-
 </body>
-
 </html>
 
 
 <script type="text/javascript">
     //document.getElementById('getjs2').addEventListener('click', getJsession2);
     document.getElementById('getjsessionapi').addEventListener('click', getJsession2);
-
     var jsession_ID //used
     var Account; //used
     var Spin; //for testing
@@ -218,7 +214,6 @@ echo '</script>';
     var urlx
     var vehicles_id
     var concheck = 1;
-    //var dynamic = [];
     var dynamic = []
     var myArray = [];
     var login_url = 'http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin'
@@ -230,16 +225,16 @@ echo '</script>';
     var format_startdate
     var format_startdate2
     var format_enddate2
-    
+
 
     var json;
     var jsion = ""; //Used to determine whether the landing
-    var ip_ = "125.27.95.236";
+    var ip_ = "125.26.121.167";
     var port_ = "6605";
     var isLanding = false; //To determine whether the landing
     var IsSearching = false; //To determine whether the search
     var loadTimeLine = true; //Whether to load the timeline, if the return file date error is not loaded
-    var mapVehicleInfo = new Hashtable();//vehicle info
+    var mapVehicleInfo = new Hashtable(); //vehicle info
     var isInitFinished = false; //Video plug-in is loaded to complete
     var serverIp = ""; //Server IP
     var serverPort = ""; //Server Port
@@ -250,7 +245,6 @@ echo '</script>';
 
 
     const VideoQueryPrompt = "Related video results were not found!";
-
     $(function() {
         var datatime = new Date();
         $("#startTime").val(datatime.getFullYear() + "-" + (datatime.getMonth() + 1) + "-" + datatime.getDate() + " " + 0 + ":" + 0 + ":" + 0);
@@ -268,59 +262,134 @@ echo '</script>';
             });
         });
         lang = new langEn();
-        
-                //Custom header
-                if (concheck == 1) {
-                    lang = new langEn();
-                    $('.languagePath').val('en.xml');
-                    
-                }
-        
-        
-                $("#videoFileTable").flexigrid({
-			url: "http://tod-office2.ddns.net:8080/StandardApiAction_queryTrackDetail.action?",					//"StandardTrackAction_query.action"
-			dataType: 'json',			
-			colModel : [	
-				{display: lang.operator, name : 'operator', width : 100, sortable : false, align: 'center'},
-				{display: lang.fileIndex, name : 'fileIndex', width : 40, sortable : false, align: 'center'},
-				{display: lang.fileTime, name : 'fileTime', width : 150, sortable : false, align: 'center'},
-				{display: lang.Type, name : 'type', width : 80, sortable : false, align: 'center'},
-				{display: lang.spanDevice, name : 'vehiIdno', width : 100, sortable : false, align: 'center'},
-				{display: lang.vehiChn, name : 'vehiChn', width : 70, sortable : false, align: 'center'},
-				{display: lang.loc, name : 'loc', width : 80, sortable : false, align: 'center'},
-				{display: lang.fileSize, name : 'fileSize', width : 80, sortable : false, align: 'center'},
-				{display: lang.file ,name: 'file', width : 380,sortable : false, align: 'center'},
-				{display: 'svr' ,name: 'svr',hide : true},
-				{display: 'devIdno' ,name: 'devIdno',hide : true },
-				{display: 'len' ,name: 'len',hide : true},
-				{display: 'chnMask' ,name: 'chnMask',hide : true},
-				{display: 'beg' ,name: 'beg',hide : true},
-				{display: 'end' ,name: 'end',hide : true},
-				],
-			usepager: false,
-			autoload: false,			
-			useRp: false,				
-			singleSelect: true,			
-			clickRowCenter: true,		
-			rp: 15,						
-			showTableToggleBtn: true,	
-			showToggleBtn: false,		
-			width: '1300px',		
-			height: 'auto',				
-			resizable: false
-		});
-        
+
+        //Custom header
+        if (concheck == 1) {
+            lang = new langEn();
+            $('.languagePath').val('en.xml');
+
+        }
+
+
+        $("#videoFileTable").flexigrid({
+            url: "http://tod-office2.ddns.net:8080/StandardApiAction_queryTrackDetail.action?", //"StandardTrackAction_query.action"
+            dataType: 'json',
+            colModel: [{
+                    display: lang.operator,
+                    name: 'operator',
+                    width: 100,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.fileIndex,
+                    name: 'fileIndex',
+                    width: 40,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.fileTime,
+                    name: 'fileTime',
+                    width: 150,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.Type,
+                    name: 'type',
+                    width: 80,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.spanDevice,
+                    name: 'vehiIdno',
+                    width: 100,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.vehiChn,
+                    name: 'vehiChn',
+                    width: 70,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.loc,
+                    name: 'loc',
+                    width: 80,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.fileSize,
+                    name: 'fileSize',
+                    width: 80,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: lang.file,
+                    name: 'file',
+                    width: 380,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    display: 'svr',
+                    name: 'svr',
+                    hide: true
+                },
+                {
+                    display: 'devIdno',
+                    name: 'devIdno',
+                    hide: true
+                },
+                {
+                    display: 'len',
+                    name: 'len',
+                    hide: true
+                },
+                {
+                    display: 'chnMask',
+                    name: 'chnMask',
+                    hide: true
+                },
+                {
+                    display: 'beg',
+                    name: 'beg',
+                    hide: true
+                },
+                {
+                    display: 'end',
+                    name: 'end',
+                    hide: true
+                },
+            ],
+            usepager: false,
+            autoload: false,
+            useRp: false,
+            singleSelect: true,
+            clickRowCenter: true,
+            rp: 15,
+            showTableToggleBtn: true,
+            showToggleBtn: false,
+            width: '1300px',
+            height: 'auto',
+            resizable: false
+        });
 
         loadLang();
 
-        
-         $("#videoFileTable").flexSetFillCellFun(function(p, row, idx, index) {
-                    return fillVideoFileTable(p, row, idx, index);
+        $("#videoFileTable").flexSetFillCellFun(function(p, row, idx, index) {
+            return fillVideoFileTable(p, row, idx, index);
         });
-        
+
         //Initialize video plug ins
-    
-         initPlayerExample();
+
+        initPlayerExample();
 
         $("#userLoginBtn").click(function() {
             userLogin();
@@ -387,7 +456,6 @@ echo '</script>';
         this.NullVideoFileInfo = "No video file information!";
         this.errorGetVideoFile = "Failed to obtain video file information!";
     }
-
     //Load control Chinese or English name
     function loadLang() {
         document.title = lang.videoExample;
@@ -497,10 +565,10 @@ echo '</script>';
                 return urlx = url
             })
             .then((VeID) => {
-                getVehicle_ID()                   
+                getVehicle_ID()
             })
-           
-            //test
+
+        //test
     }
 
     function getVehicle_ID() {
@@ -508,26 +576,23 @@ echo '</script>';
             .then((res) => res.json())
             .then((data) => {
 
-                //console.log("Dataxxxxxxxxxxxxxxxxxx")
-                //console.log(data)
-                //console.log(typeof(data))
-                let count =  Object.keys(data.vehicles).length; 
+                let count = Object.keys(data.vehicles).length;
                 //console.log(count) // count Vehicle[0].nm from API
                 let myArrLength = myArray.length
-                
+
                 //console.log("myArray length "+myArrLength)
 
-               if (myArrLength != 0 ) {
-                   myArray.length = 0 ;
-               }
-               console.log("myArray length2 "+myArrLength)
-                for (let i  = 0; i < count; i++) {
+                if (myArrLength != 0) {
+                    myArray.length = 0;
+                }
+                console.log("myArray length2 " + myArrLength)
+                for (let i = 0; i < count; i++) {
                     //console.log(i)
-                var company_id = data.companys[0].id                
-                vehicles_id = data.vehicles[0].nm
-                console.log("vehicles_id " + vehicles_id)
-                myArray.push(vehicles_id)
-                 }
+                    var company_id = data.companys[0].id
+                    vehicles_id = data.vehicles[0].nm
+                    console.log("vehicles_id " + vehicles_id)
+                    myArray.push(vehicles_id)
+                }
 
                 let output2 = '<h2>Cars List</h2>';
                 output2 += ` 
@@ -536,12 +601,12 @@ echo '</script>';
                     
                 </ul>
                     `;
-                document.getElementById('output2').innerHTML = output2;
+                // document.getElementById('output2').innerHTML = output2;      <---show Test
                 $vehicles_id_x = vehicles_id
                 console.log("LOG")
                 let output
                 for (let i = 0; i < myArray.length; i++) {
-                output += "<option value =" + myArray[i] + ">" + myArray[i] + "</option>";
+                    output += "<option value =" + myArray[i] + ">" + myArray[i] + "</option>";
                 }
                 document.getElementById("test").innerHTML = output;
                 return vehicles_id
@@ -655,7 +720,6 @@ echo '</script>';
             }
         }
         console.log("Filelocation = >", file_location);
-
     }
 
     function checkVideotype() {
@@ -679,7 +743,7 @@ echo '</script>';
     function checkFiletype() {
         var radios = document.getElementsByName('Filetype');
 
-    
+
         File_type = 1
         //document.getElementById("Fileresult").innerHTML = "FileType: " + FileType;
         console.log("FileType", File_type);
@@ -692,7 +756,7 @@ echo '</script>';
     }
 
     function Search() {
-        
+
         if (jsession_ID == "") {
             alert("You are not logged in, please login!");
             return;
@@ -738,7 +802,7 @@ echo '</script>';
         var format_enddate = Full_year2 + "-" + Full_month2 + "-" + Full_date2 + " " + 0 + ":" + 0 + ":" + 0
         format_enddate2 = Full_year2 + "-" + Full_month2 + "-" + Full_date2 + " " + Full_Hours2 + ":" + Full_Minutes2 + ":" + Full_Seconds2
         var HMS_b = Full_Hours + ":" + Full_Minutes + ":" + Full_Seconds
-    
+
         begstr = format_startdate2.split(" ");
         endstr = format_enddate2.split(" ");
         var beg = shortHour2Second(begstr[1].toString());
@@ -750,11 +814,17 @@ echo '</script>';
         var radioFileType = $('input:radio[name="FileType"]:checked').val();
         var radioVideoType = $('input:radio[name="VideoType"]:checked').val();
         var param = [];
-        param.push({      name: 'MediaType',            value: 2
+        param.push({
+            name: 'MediaType',
+            value: 2
         });
-        param.push({            name: 'DownType',            value: 2
+        param.push({
+            name: 'DownType',
+            value: 2
         });
-        param.push({            name: 'jsession',            value: jsession_ID
+        param.push({
+            name: 'jsession',
+            value: jsession_ID
         });
 
         if (radioFileLocation != 1) { //PASS
@@ -762,7 +832,7 @@ echo '</script>';
                 name: 'DevIDNO',
                 value: searchVehicle.toString()
             });
-            
+
         } else {
             param.push({
                 name: 'DevIDNO',
@@ -789,6 +859,7 @@ echo '</script>';
                     console.log("xxxAJAXxx")
                     console.log(json)
                     serverIp = data.server.clientIp;
+                    alert(serverIp)
                     serverPort = data.server.clientPort;
 
                     var param2 = [];
@@ -817,9 +888,18 @@ echo '</script>';
                         console.log(json)
 
                     }
-                    param2.push({ name: 'LOC',value: Number(radioFileLocation) });
-                    param2.push({ name: 'CHN',value: -1 });
-                    param2.push({ name: 'YEAR',value: Number(Full_year) });
+                    param2.push({
+                        name: 'LOC',
+                        value: Number(radioFileLocation)
+                    });
+                    param2.push({
+                        name: 'CHN',
+                        value: -1
+                    });
+                    param2.push({
+                        name: 'YEAR',
+                        value: Number(Full_year)
+                    });
                     param2.push({
                         name: 'MON',
                         value: Number(Full_month)
@@ -894,14 +974,14 @@ echo '</script>';
 
 
 
-        document.getElementById('output3').innerHTML = outputX;
+        //document.getElementById('output3').innerHTML = outputX;    <--- Test output
 
         /*var radioFileLocation=('input:radio[name="FileLocation"]:checked').val();
         console.log("File_locationxxx ==",radioFileLocation)*/
 
     } ///////////////////////////////here 
 
-    
+
     function shortHour2Second(hour) {
         var temp = hour.split(":");
         console.log("TEMP")
@@ -918,13 +998,13 @@ echo '</script>';
 
 
     function addVideoFileInfo(json) {
-        
+
         //alert("1074")
         console.log("xTest JSONx")
         console.log(json)
         var files = new Array();
         console.log(typeof(files))
-    
+
         if (json.files != null && json.files.length > 0) {
             //File list sort, according to the start time from small to large
             json.files.sort(function(a, b) {
@@ -987,7 +1067,7 @@ echo '</script>';
                 $(".flexigrid div.bDiv").css('max-height', '264px');
             }
         }
-            if (json.result == 0) {
+        if (json.result == 0) {
             if (files.length <= 0) {
                 $.dialog.tips(lang.NullVideoFileInfo, 2);
             }
@@ -1024,86 +1104,88 @@ echo '</script>';
     }
 
     function getAllChnName() {
-		var chnNames = [];
-		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
-		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
-			var channels = vehicle.device.channels;
-			for (var i = 0; i < channels.length; i++) {
-				chnNames.push(channels[i].name);
-			}
-		}
-		return chnNames.toString();
-	}
-	
-	//Get the channel name
-	function getChnName(chn) {
-		var vehicle = mapVehicleInfo.get(searchVehicle.toString());
-		if(vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
-			var channels = vehicle.device.channels;
-			for (var i = 0; i < channels.length; i++) {
-				if(chn == channels[i].index) {
-					return channels[i].name;
-				}
-			}
-		}
+        var chnNames = [];
+        var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+        if (vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+            var channels = vehicle.device.channels;
+            for (var i = 0; i < channels.length; i++) {
+                chnNames.push(channels[i].name);
+            }
+        }
+        return chnNames.toString();
     }
-    
+
+    //Get the channel name
+    function getChnName(chn) {
+        var vehicle = mapVehicleInfo.get(searchVehicle.toString());
+        if (vehicle != null && vehicle.device != null && vehicle.device.channels && vehicle.device.channels.length > 0) {
+            var channels = vehicle.device.channels;
+            for (var i = 0; i < channels.length; i++) {
+                if (chn == channels[i].index) {
+                    return channels[i].name;
+                }
+            }
+        }
+    }
+
     function processFileDay(data) {
-		//File across the day before the day of the day or the day after the time
-		//To judge the day before the cross, if the date is the day before
-		var beginstr =$("#startTime").val();
-        beginstr = format_startdate2.replace(/-/g,"/");
-        
+        //File across the day before the day of the day or the day after the time
+        //To judge the day before the cross, if the date is the day before
+        var beginstr = $("#startTime").val();
+        beginstr = format_startdate2.replace(/-/g, "/");
+
         var begindate = new Date(beginstr);
-        console.log("Beginstr == "+beginstr)
-		data.yearMonthDay = dateFormat2DateString(begindate);
-		var day = Number(data.yearMonthDay.substring(8, 10));
-		var fileDay = Number(data.day);
-		var fileRealDate = getFileTime(data.year, data.mon, data.day);
-		if(!dateCompareStrDateRange(data.yearMonthDay, fileRealDate, 1) || !dateCompareStrDateRange(fileRealDate, data.yearMonthDay, 1)) {
-			loadTimeLine = false;
-			data.relBeg = data.beg;
-			data.relEnd = data.end;
-			data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
-			data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
-			data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
-		}else {
-			loadTimeLine = true;
-			//The day before
-			if(fileDay < day || (day == 1 && fileDay <= 31 && fileDay >=28 )) {
-				data.relBeg = 0;
-				data.relEnd = Number(data.end) - 86400;
-				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
-				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(data.relEnd);
-				data.timeTitle = data.beginDate + ' - ' + data.endDate;
-			}else if(fileDay == day && Number(data.end) > 86400)  {
-				//ay after day
-				data.relBeg = data.beg;
-				data.relEnd = 86399;
-				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
-				data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) +' '+ second2ShortHourEx(Number(data.end) - 86400);
-				data.timeTitle = data.beginDate + ' - ' + data.endDate;
-			}else {
-				data.relBeg = data.beg;
-				data.relEnd = data.end;
-				data.beginDate = fileRealDate +' '+ second2ShortHourEx(data.beg);
-				data.endDate = fileRealDate +' '+ second2ShortHourEx(data.end);
-				data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
-			}
-		}
+        console.log("Beginstr == " + beginstr)
+        data.yearMonthDay = dateFormat2DateString(begindate);
+        var day = Number(data.yearMonthDay.substring(8, 10));
+        var fileDay = Number(data.day);
+        var fileRealDate = getFileTime(data.year, data.mon, data.day);
+        if (!dateCompareStrDateRange(data.yearMonthDay, fileRealDate, 1) || !dateCompareStrDateRange(fileRealDate, data.yearMonthDay, 1)) {
+            loadTimeLine = false;
+            data.relBeg = data.beg;
+            data.relEnd = data.end;
+            data.beginDate = fileRealDate + ' ' + second2ShortHourEx(data.beg);
+            data.endDate = fileRealDate + ' ' + second2ShortHourEx(data.end);
+            data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+        } else {
+            loadTimeLine = true;
+            //The day before
+            if (fileDay < day || (day == 1 && fileDay <= 31 && fileDay >= 28)) {
+                data.relBeg = 0;
+                data.relEnd = Number(data.end) - 86400;
+                data.beginDate = fileRealDate + ' ' + second2ShortHourEx(data.beg);
+                data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) + ' ' + second2ShortHourEx(data.relEnd);
+                data.timeTitle = data.beginDate + ' - ' + data.endDate;
+            } else if (fileDay == day && Number(data.end) > 86400) {
+                //ay after day
+                data.relBeg = data.beg;
+                data.relEnd = 86399;
+                data.beginDate = fileRealDate + ' ' + second2ShortHourEx(data.beg);
+                data.endDate = dateFormat2DateString(dateGetNextMulDay(dateStrLongTime2Date(data.beginDate), 1)) + ' ' + second2ShortHourEx(Number(data.end) - 86400);
+                data.timeTitle = data.beginDate + ' - ' + data.endDate;
+            } else {
+                data.relBeg = data.beg;
+                data.relEnd = data.end;
+                data.beginDate = fileRealDate + ' ' + second2ShortHourEx(data.beg);
+                data.endDate = fileRealDate + ' ' + second2ShortHourEx(data.end);
+                data.timeTitle = data.beginDate + ' - ' + second2ShortHourEx(data.end);
+            }
+        }
     }
-    
+
 
     function dateFormat2DateString(date) {
-        var y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
-        console.log("Y = " +y)
-        console.log("M = " +m)
-        console.log("D = " +d)
-        var str = y + "-" + dateFormatValue( m + 1) + "-" + dateFormatValue(d);
+        var y = date.getFullYear(),
+            m = date.getMonth() + 1,
+            d = date.getDate();
+        console.log("Y = " + y)
+        console.log("M = " + m)
+        console.log("D = " + d)
+        var str = y + "-" + dateFormatValue(m + 1) + "-" + dateFormatValue(d);
         var strR = y + "-" + m + "-" + d
         console.log(strR)
-		return strR;
-	}
+        return strR;
+    }
 
     function initPlayerExample() {
         console.log("Inint video player is work")
@@ -1117,18 +1199,18 @@ echo '</script>';
         //Initialization is not completed
         isInitFinished = false;
         //Video card width
-        var width = "400";
+        var width = "800";
         //Video card hight
         var hieght = "400";
         //Initialize flash
-        swfobject.embedSWF("player.swf", "cmsv6flash", width, hieght, "11.0.0", null, null, params, null);
+        swfobject.embedSWF("player.swf", "cmsv6flash", 800, 400, "11.0.0", null, null, params, null);
         initFlash();
     }
 
     function initFlash() {
         if (swfobject.getObjectById("cmsv6flash") == null ||
             typeof swfobject.getObjectById("cmsv6flash").setWindowNum == "undefined") {
-            
+
             setTimeout(initFlash, 50);
         } else {
             //Initialize plugin language
@@ -1151,206 +1233,189 @@ echo '</script>';
     }
 
     function videoFileReplay(obj, id) {
-			QueryServer(id,'replay');
-	}
+        QueryServer(id, 'replay');
+    }
 
-  	//Access to video file playback server information
-  	function doReplayVehicleServer(id,Idno,loc,svr,dwServer){
-  		var beg=Number($("#row"+id+" .beg div").text());
-       	var eng=Number($("#row"+id+" .end div").text());
-       	var DValue=0;
-       	var chnStr=$("#row"+id+" .vehiChn div").text();
-       	var chn=chnStr.substring(2,chnStr.length)-1;
-       	var filename =$("#row"+id+" .file div").text();
-    	var lastindex=filename.lastIndexOf('/');
-    	var title=filename.substring(lastindex+1,filename.length);
-       	//Real time database access
-     	var url='//'+dwServer.clientIp +':'+ dwServer.clientPort+'/3/5?DownType=5&DevIDNO='+Idno+'&FILELOC='+loc+'&FILESVR='+svr+'&FILECHN='+chn+'&FILEBEG='+beg+'&FILEEND='+eng+'&PLAYIFRM=0&PLAYFILE='+filename+'&PLAYBEG=0&PLAYEND='+DValue+'&PLAYCHN=0';
-     	startPlayback(url,title);
-      }
-      
-
-      function doDownloadVideoFileInfo(Idno,id, dwServer) {
-		var devIdno = Idno;
-		var len = $("#row"+id+" .len div").text();
-		var file = $("#row"+id+" .file div").text();
-		var url = "//" + dwServer.clientIp +':'+ dwServer.clientPort + "/3/5?DownType=3";
-		url += "&DevIDNO="+ devIdno;
-		url += "&FLENGTH="+ len;
-		url += "&FOFFSET=0";
-		url += "&MTYPE=1";
-		url += "&FPATH="+ file;
-		var paths = file.split('/');
-		if (paths.length == 1) {
-			paths = file.split('\\');
-		}
-		url += "&SAVENAME="+ encodeURI(paths[paths.length - 1]);
-		window.open(url, "_blank");
-	}
+    //Access to video file playback server information
+    function doReplayVehicleServer(id, Idno, loc, svr, dwServer) {
+        var beg = Number($("#row" + id + " .beg div").text());
+        var eng = Number($("#row" + id + " .end div").text());
+        var DValue = 0;
+        var chnStr = $("#row" + id + " .vehiChn div").text();
+        var chn = chnStr.substring(2, chnStr.length) - 1;
+        var filename = $("#row" + id + " .file div").text();
+        var lastindex = filename.lastIndexOf('/');
+        var title = filename.substring(lastindex + 1, filename.length);
+        //Real time database access
+        var url = '//' + dwServer.clientIp + ':' + dwServer.clientPort + '/3/5?DownType=5&DevIDNO=' + Idno + '&FILELOC=' + loc + '&FILESVR=' + svr + '&FILECHN=' + chn + '&FILEBEG=' + beg + '&FILEEND=' + eng + '&PLAYIFRM=0&PLAYFILE=' + filename + '&PLAYBEG=0&PLAYEND=' + DValue + '&PLAYCHN=0';
+        startPlayback(url, title);
+    }
 
 
+    function doDownloadVideoFileInfo(Idno, id, dwServer) {
+        var devIdno = Idno;
+        var len = $("#row" + id + " .len div").text();
+        var file = $("#row" + id + " .file div").text();
+        var url = "//" + dwServer.clientIp + ':' + dwServer.clientPort + "/3/5?DownType=3";
+        url += "&DevIDNO=" + devIdno;
+        url += "&FLENGTH=" + len;
+        url += "&FOFFSET=0";
+        url += "&MTYPE=1";
+        url += "&FPATH=" + file;
+        var paths = file.split('/');
+        if (paths.length == 1) {
+            paths = file.split('\\');
+        }
+        url += "&SAVENAME=" + encodeURI(paths[paths.length - 1]);
+        window.open(url, "_blank");
+    }
+    /**
+     *Set window title
+     **/
+    function setWindowTitle(title) {
+        if (!isInitFinished) {
+            return;
+        } else {
+            //窗口下标
+            var index = 0;
+            swfobject.getObjectById("cmsv6flash").setVideoInfo(index, title);
+        }
+    }
 
+    function startPlayback(url, title) {
+        if (!isInitFinished) {
+            return;
+        } else {
 
-
-
-
-
-
-
-
+            setWindowTitle(title);
+            //Window index
+            var index = 0;
+            //Stop before playback
+            swfobject.getObjectById('cmsv6flash').stopVideo(index);
+            //Start playback
+            swfobject.getObjectById("cmsv6flash").startVod(index, url);
+        }
+    }
 
     /**
-   	*Set window title
-   	**/
-  	function setWindowTitle(title) {
-      	if (!isInitFinished){
-          	return;
-      	} else {
-      		//窗口下标
-      		var index = 0;
-          	swfobject.getObjectById("cmsv6flash").setVideoInfo(index, title);
-      	}
-      }	
-      function startPlayback(url,title) {
- 		if (!isInitFinished){
-          	return;
-      	} else {
-      		
-			setWindowTitle(title);
-      		//Window index
-      		var index = 0;
-      		//Stop before playback
-      		swfobject.getObjectById('cmsv6flash').stopVideo(index);
-      		//Start playback
-          	swfobject.getObjectById("cmsv6flash").startVod(index, url);
-      	}
- 	}
-     	
- 	/**
- 	 * Stop remote playback
- 	 **/
- 	function stopPlayback() {
- 		if (!isInitFinished){
-          	return;
-      	} else {
-      		//Window index
-      		var index = 0;
-          	swfobject.getObjectById("cmsv6flash").stopVideo(index);
-      	}
- 	}
- 	
- 	/**
-  	 * Video plug-in language
-  	 **/
-  	function setVideoLanguage() {
-  		if (!isInitFinished){
-          	return;
-      	} else {
-      		//Language file
-      		var language = $.trim($('.languagePath').val());
-         	if(!language) {
-         		$('.languagePath').focus();
-         		return;
-         	}
-          	swfobject.getObjectById("cmsv6flash").setLanguage(language);
-      	}
-      }
-      
-
-      function getFileTime(year, mon, day) {
-		var retTime = "";
-		retTime += Number(year)+2000;
-		retTime += "-";
-		if(mon < 10) {
-			retTime += "0"+mon;
-		}else {
-			retTime += mon;
-		}
-		retTime += "-";
-		if(day < 10) {
-			retTime += "0"+day;
-		}else {
-			retTime += day;
-		}
-		return retTime;
-	}
-		
-	//Breakpoint download video file
-	function downloadVideoFile(id) {
-		if(id != null) {
-			if(!confirm(lang.allowed)){
-				return;
-			}
-			//Search and download the video file server information, after the successful download video file information
-			QueryServer(id,'down');
-		}
+     * Stop remote playback
+     **/
+    function stopPlayback() {
+        if (!isInitFinished) {
+            return;
+        } else {
+            //Window index
+            var index = 0;
+            swfobject.getObjectById("cmsv6flash").stopVideo(index);
+        }
     }
-    
+
+    /**
+     * Video plug-in language
+     **/
+    function setVideoLanguage() {
+        if (!isInitFinished) {
+            return;
+        } else {
+            //Language file
+            var language = $.trim($('.languagePath').val());
+            if (!language) {
+                $('.languagePath').focus();
+                return;
+            }
+            swfobject.getObjectById("cmsv6flash").setLanguage(language);
+        }
+    }
+
+
+    function getFileTime(year, mon, day) {
+        var retTime = "";
+        retTime += Number(year) + 2000;
+        retTime += "-";
+        if (mon < 10) {
+            retTime += "0" + mon;
+        } else {
+            retTime += mon;
+        }
+        retTime += "-";
+        if (day < 10) {
+            retTime += "0" + day;
+        } else {
+            retTime += day;
+        }
+        return retTime;
+    }
+
+    //Breakpoint download video file
+    function downloadVideoFile(id) {
+        if (id != null) {
+            if (!confirm(lang.allowed)) {
+                return;
+            }
+            //Search and download the video file server information, after the successful download video file information
+            QueryServer(id, 'down');
+        }
+    }
+
     //Query related server information
-	function QueryServer(id,type) {
-		var Idno;
-		var loc,loctext=$("#row"+id+" .loc div").text();
-		if(loctext==lang.Device){
-			loc="1";
-		}else if(loctext==lang.StorageServer){
-			loc="2";
-		}else if(loctext==lang.DownloadServer){
-			loc="4";
-		}
-		var svr=$("#row"+id+" .svr div").text();
-		var param = [];
-		if(loc == 1) {
-			Idno =$("#row"+id+" .devIdno div").text();
-			param.push({name: 'DevIDNO', value: Idno});
-		}else {
-			Idno =$("#row"+id+" .vehiIdno div").text();
-			param.push({name: 'DevIDNO', value: Idno});
-		}
-		param.push({name: 'Location', value: loc});
-		param.push({name: 'FileSvrID', value: svr});
-		param.push({name: 'jsession', value: jsion});
-		//Real time server information
-		$.ajax({
-			type:'POST',
-			url:'//'+ ip_ +':' + port_+'/3/1/callback=getData?MediaType=2&DownType=3',
-			data:param,
-			cache:false,
-			dataType: 'jsonp',
-			success: getData = function (data) {
-				if(data.result == 0){
-					if(type=='down'){
-						doDownloadVideoFileInfo( Idno, id, data.server);
-					}
-					else if(type=='replay'){
-						doReplayVehicleServer(id,Idno,loc,svr,data.server);
-					}
-				}else{
-					alert(lang.ServerQueryPrompt);
-				}
-			}
+    function QueryServer(id, type) {
+        var Idno;
+        var loc, loctext = $("#row" + id + " .loc div").text();
+        if (loctext == lang.Device) {
+            loc = "1";
+        } else if (loctext == lang.StorageServer) {
+            loc = "2";
+        } else if (loctext == lang.DownloadServer) {
+            loc = "4";
+        }
+        var svr = $("#row" + id + " .svr div").text();
+        var param = [];
+        if (loc == 1) {
+            Idno = $("#row" + id + " .devIdno div").text();
+            param.push({
+                name: 'DevIDNO',
+                value: Idno
+            });
+        } else {
+            Idno = $("#row" + id + " .vehiIdno div").text();
+            param.push({
+                name: 'DevIDNO',
+                value: Idno
+            });
+        }
+        param.push({
+            name: 'Location',
+            value: loc
         });
-        
-        
-	}
+        param.push({
+            name: 'FileSvrID',
+            value: svr
+        });
+        param.push({
+            name: 'jsession',
+            value: jsion
+        });
+        //Real time server information
+        $.ajax({
+            type: 'POST',
+            url: '//' + ip_ + ':' + port_ + '/3/1/callback=getData?MediaType=2&DownType=3',
+            data: param,
+            cache: false,
+            dataType: 'jsonp',
+            success: getData = function(data) {
+                if (data.result == 0) {
+                    if (type == 'down') {
+                        doDownloadVideoFileInfo(Idno, id, data.server);
+                    } else if (type == 'replay') {
+                        doReplayVehicleServer(id, Idno, loc, svr, data.server);
+                    }
+                } else {
+                    alert(lang.ServerQueryPrompt);
+                }
+            }
+        });
 
-    var myVideo = document.getElementById("video1");
 
-    function playPause() {
-        if (myVideo.paused)
-            myVideo.play();
-        else
-            myVideo.pause();
     }
 
-    function makeBig() {
-        myVideo.width = 560;
-    }
-
-    function makeSmall() {
-        myVideo.width = 320;
-    }
-
-    function makeNormal() {
-        myVideo.width = 420;
-    }
 </script>
