@@ -11,8 +11,10 @@
 	/*margin-left: 420px;*/
     padding: 0 120px 20px;
     position: absolute;
-    /*background-color: powderblue;*/
+    
 }
+
+
 .player-params{
     padding: 0 0 10px 20px;
    
@@ -21,14 +23,14 @@
 	padding: 0 0 10px;
 	white-space:normal; 
 	word-break:break-all;
-    /*overflow:hidden;*/
-    /* background-color: greenyellow;*/
+    overflow:hidden;
+    
 }
 .player-params .player-param a.title {
-	color: #333;
+	color: rgb(0, 0, 0);
 }
 .player-params .player-param a.title:focus, .player-params .player-param a.title:hover{
-	color: #333;
+	color: rgb(101, 220, 27);
 	text-decoration: none;
 }div#eventTip {
     margin-top: 10px;
@@ -36,3 +38,171 @@
 }a#isPlay {
     margin-top: 5px;
 }
+
+.button {
+   display:inline-block;
+   padding:0.35em 1.2em;
+   border:0.1em solid rgb(81, 123, 206);
+   margin:0 0.3em 0.3em 0;
+   border-radius:0.12em;
+   box-sizing: border-box;
+   text-decoration:none;
+   font-family:'Roboto',sans-serif;
+   font-weight:300;
+   color:rgb(255, 255, 255);
+   text-align:center;
+   transition: all 0.2s;
+   background-color:rgb(81, 123, 206);
+  }
+
+  .button:hover{
+    color:#000000;
+    background-color:rgb(12, 103, 100);
+    }
+    
+    @media all and (max-width:30em){
+    button.button{
+    display:block;
+    margin:0.4em auto;
+    }
+}
+
+button.button1{
+    height: 50px;
+    width:30%;
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid #0d47a1;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+    background-color:#0d47a1
+    }
+    button.button1:hover{
+    color:#a91b9b;
+    background-color:#FFFFFF;
+    
+    }
+    @media all and (max-width:30em){
+     button.button1{
+    display:block;
+    margin:0.4em auto;
+    }
+}
+
+
+
+button.example_a {
+    color: #fff !important;
+    width:20%;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #0d47a1;
+    padding: 20px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    }
+    button.example_a:hover {
+        background: #434343;
+        width:25%;
+        letter-spacing: 5px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+        }
+        @media all and (min-width:30em){
+             button.example_a{
+            display:block;
+            margin:0.4em auto;
+            }
+        }
+
+   button.example_b {
+    color: #fff !important;
+    width:20%;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #98072b;
+    padding: 20px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    }
+
+    button.example_b:hover {
+        background: #434343;
+        width:25%;
+        letter-spacing: 3px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+        }
+
+@media screen and (max-width:600px){
+    button.example_a{
+        width: 15em;
+        display:block;
+        margin:0.4em auto;
+        
+    }
+    button.example_a:hover {
+        background: #434343;
+            width:20em;
+            letter-spacing: 3px;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+            transition: all 0.4s ease 0s;
+    }
+
+    button.example_b{
+    width: 15em;
+    display:block;
+    margin:0.4em auto;
+    
+    }
+    button.example_b:hover {
+    background: #434343;
+        width:20em;
+        letter-spacing: 3px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+        }
+    #operateExample {
+            /*margin-left: 420px;*/
+        padding: 0 0px 0px;
+        position: absolute;
+        
+            
+    }
+    .custom-select {
+        width: 100;
+        font-size: 1em;
+        letter-spacing: 3px;
+    }
+    span.new-line {
+        display:block;
+    }
+    .new-line {
+        display:block;
+    }
+
+
+
+
+
+}     
+    

@@ -42,6 +42,11 @@ echo '</script>';
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/hashtable.js"></script>
     <script type="text/javascript" src="http://tod-office2.ddns.net:8080/808gps/js/date.js"></script>
 
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    
+
 
 
     <style type="text/css">
@@ -68,6 +73,7 @@ echo '</script>';
 
 <body>
 <center>
+    <h1> Video Playback</h1>
     <div id="flashExample" style="overflow: hidden; height: 400px; width:400px;"> </div>
     <div id="cmsv6flash" style=" height: 400px; width:400px;">  </div>
 </center>        
@@ -86,10 +92,18 @@ echo '</script>';
 
 
 
-        <button id="getjsessionapi" class="btn btn-danger"> get Jsession from API</button>
+         
+        <button id="getjsessionapi" class="example_b" > get Jsession from API  <i class='fas fa-car-side'></i> </button>
        
         <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
+
         
+        <span><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></span><span class="new-line"><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></span></p>
+        
+
+
+
+
          <!-- Show Dev id Test -->
         <!--
         <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
@@ -104,15 +118,20 @@ echo '</script>';
                 <tr>
                     <td> <label> CAR: </label> </td>
                     <td>
-                        <select id="test" onchange="ChangeList()" style="width:100px;">
-                            <option> ---Car--- </option>
+                        <select id="test" onchange="ChangeList()" class="custom-select" style="width:20em; font-size:15px">
+                            <option > ---Car--- </option>
                         </select>
                     </td>
 
+                    
                     <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
-                    <td><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
+                    <td class="new-line "><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
+                    
+
+                    
                     <td> <label for="ending-time" style="width:50px;  text-align: center;"> TO :</label></td>
                     <td> <input type="datetime-local" id="ending-time" name="meeting-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()"></td>
+                    
                 </tr>
             </table>
         </div>
@@ -162,8 +181,11 @@ echo '</script>';
 
         </div>
 
-
-        <button id="search" class="btn btn-info" style="width: 192px;" onclick="Search()">Search</button>
+<!--
+        <button id="search" class="button " style= "height: 10%; width:20%;" onclick="Search()">Search</button>
+        <button id="search"  class="button1"  onclick="Search()" > Search </button>
+-->
+        <button class="example_a"  onclick="Search()"> Search  <span class="glyphicon glyphicon-search"> </button>
         <!-- Output Test -->
         <!--   
         <h3>Output DATA</h2>
@@ -173,7 +195,7 @@ echo '</script>';
 
 
                 <div class="playback" style="margin: 0;">
-                    <p id="playbackTitle">录像查询</p>
+                   <!-- <p id="playbackTitle">录像查询</p> -->
                     <div class="player-params">
                         <div class="player-param">
                             <a id="queryresults" class="title windowIndex">查询结果：</a>
