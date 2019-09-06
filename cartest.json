@@ -1,0 +1,12 @@
+{
+    "0": {
+        "GpsID": "888888",
+        "VehicleLicense": "MDVR-0001",
+        "VehicleName": "MDVR-0001"
+    },
+    "1": {
+        "GpsID": "888889",
+        "VehicleLicense": "MDVR-0001",
+        "VehicleName": "MDVR-0002"
+    }
+}

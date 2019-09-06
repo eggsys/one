@@ -13,8 +13,9 @@
     position: absolute;
     
 }
-
-
+.form-control {
+    display:inline;
+}
 .player-params{
     padding: 0 0 10px 20px;
    
@@ -38,6 +39,22 @@
 }a#isPlay {
     margin-top: 5px;
 }
+
+
+label.mg1 {
+    margin-bottom: 0%
+}
+
+input.border1{
+    width: 10em;
+    height: 3em;
+    }
+
+
+
+
+
+
 
 .button {
    display:inline-block;
@@ -137,6 +154,7 @@ button.example_a {
     display: inline-block;
     border: none;
     transition: all 0.4s ease 0s;
+    margin-bottom: 10px;
     }
 
     button.example_b:hover {
@@ -171,6 +189,8 @@ button.example_a {
     display:block;
     margin:0.4em auto;
     
+    
+    
     }
     button.example_b:hover {
     background: #434343;
@@ -191,7 +211,7 @@ button.example_a {
     .custom-select {
         width: 100;
         font-size: 1em;
-        letter-spacing: 3px;
+        /*letter-spacing: 3px;*/
     }
     span.new-line {
         display:block;
@@ -200,9 +220,17 @@ button.example_a {
         display:block;
     }
 
-
-
-
+    .form-control{
+        width: 10px;
+    }
+    .player-param{
+        width: 100%;
+       
+    }
+    label.mg1{
+        text-align: left;
+        
+    }
 
 }     
     

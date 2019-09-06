@@ -45,7 +45,7 @@ echo '</script>';
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-
+    
 
 
 
@@ -66,35 +66,35 @@ echo '</script>';
 
 
 
-
+   
 
 
 </head>
 
 <body>
-    <center>
-        <h1> Video Playback</h1>
-        <div id="flashExample" style="overflow: hidden; height: 400px; width:400px;"> </div>
-        <div id="cmsv6flash" style=" height: 400px; width:400px;"> </div>
-    </center>
+<center>
+    <h1> Video Playback</h1>
+    <div id="flashExample" style="overflow: hidden; height: 400px; width:400px;"> </div>
+    <div id="cmsv6flash" style=" height: 400px; width:400px;">  </div>
+</center>        
 
-    <a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
-    <select style="width: 140px;display: none;" class="languagePath">
-        <option>en.xml</option>
-        <option>cn.xml</option>
-    </select>
-    <a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings" onclick="setVideoLanguage()">设置</a>
+        <a class="title" id="videoLangTitle" style="display: none;">插件语言：</a>
+        <select style="width: 140px;display: none;" class="languagePath">
+            <option>en.xml</option>
+            <option>cn.xml</option>
+        </select>
+        <a style="margin-left: 20px;display: none;" class="button button-primary button-rounded button-small settings" onclick="setVideoLanguage()">设置</a>
     </div>
-
+    
     <div id="operateExample" style="position:absolute;width: 100%;">
         <!--  用户登录开始 -->
+    
 
 
 
-
-
-        <button id="getjsessionapi" class="example_b" style="display:none;"> Show Car <i class='fas fa-car-side'></i> </button>
-
+         
+        <button id="getjsessionapi" class="example_b" > get Jsession from API  <i class='fas fa-car-side'></i> </button>
+       
         <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
 
         <!--
@@ -104,7 +104,7 @@ echo '</script>';
 
 
 
-        <!-- Show Dev id Test -->
+         <!-- Show Dev id Test -->
         <!--
         <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
          -->
@@ -115,7 +115,7 @@ echo '</script>';
 
         <div>
 
-            <!--
+        <!--
             <table>
                 <tr>
                     <td> <label> CAR: </label> </td>
@@ -141,39 +141,39 @@ echo '</script>';
         -->
 
 
+            
+
+            <label> CAR: </label> 
+                <span class="new-line">    
+                    <select id="test" onchange="ChangeList()" class="custom-select" style="width:20em; font-size:15px">
+                        <option > ---Car--- </option>
+                    </select>
+                </span>
+
+                <label for="meeting-time" style="width:100px; text-align: center" class="mg1" > Video Start:</label>    
+                
+                
+                
+                    <span class="new-line">
+                        
+                        <input type="datetime-local" class="form-control" style="width:20em; display:inline;" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()">
+                    </span>
+                <label for="ending-time" style="width:50px;  text-align: center; display:inline;" class="mg1"> TO :</label>
+                    <span class="new-line"> 
+                        <input type="datetime-local" class="form-control" style="width:20em; display:inline;" id="ending-time" name="ending-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()">
+                    </span>
 
 
-            <label class="mg1"> CAR: </label>
-            <span class="new-line ">
-                <select id="test" onchange="ChangeList()" class="custom-select" style="width:20em; font-size:15px">
-                    <option> ---Car--- </option>
-                </select>
-            </span>
-
-            <label for="meeting-time" style="width:100px; text-align: left" class="mg1"> Video Start:</label>
-
-
-
-            <span class="new-line">
-
-                <input type="datetime-local" class="form-control" style="width:20em; display:inline;" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()">
-            </span>
-            <label for="ending-time" style="width:50px;  text-align: center; display:inline;" class="mg1"> TO :</label>
-            <span class="new-line">
-                <input type="datetime-local" class="form-control" style="width:20em; display:inline;" id="ending-time" name="ending-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()">
-            </span>
-
-
-
-
-
-
+                    
+                   
+                    
+     
 
 
         </div>
 
         <div id="fileLocation" class="custom-control custom-radio" style="line-height:30px; ">
-            <div style="display:none;">
+            <div>
                 <a id="filelocation" class="title">File Location:</a>
                 <label class="new-line">
                     <input id="wjwz-device" type="radio" checked="" value="1" name="FileLocation" onchange="checkRadioValue()">
@@ -191,10 +191,10 @@ echo '</script>';
             </div>
 
             <div style="display:none;">
-                <a id="filetype" class="title"> File Type:</a>
+                <a id="filetype" class="title" > File Type:</a>
                 <label>
                     <input id="wjlx-video" type="radio" checked="" value="2" name="FileType" onchange="checkFiletype()">
-                    <span id="spanVideoType">Videotape</span>
+                    <span id="spanVideoType" >Videotape</span>
                 </label>
             </div>
 
@@ -217,50 +217,49 @@ echo '</script>';
 
         </div>
 
-        <!--
+<!--
         <button id="search" class="button " style= "height: 10%; width:20%;" onclick="Search()">Search</button>
         <button id="search"  class="button1"  onclick="Search()" > Search </button>
 -->
-        <button class="example_a" onclick="Search()"> Search <span class="glyphicon glyphicon-search"> </button>
+        <button class="example_a"  onclick="Search()"> Search  <span class="glyphicon glyphicon-search"> </button>
         <!-- Output Test -->
         <!--   
         <h3>Output DATA</h2>
             <div id="output3" class="jumbotron" style="position:relative; left:20px; top:2px;">Your data List will be here</div>
         -->
-        <h3> Query Video </h2>
+            <h3> Query Video </h2>
 
 
-            <div class="playback" style="margin: 0;">
-                <!-- <p id="playbackTitle">录像查询</p> -->
-                <div class="player-params2">
-                    <div class="player-param">
-                        <a id="queryresults" class="title windowIndex">查询结果：</a>
-                    </div>
-                    <div class="player-param" style="margin: 0;width: 400;max-height:300px;overflow: auto;">
-                        <textarea id="videosearch" style="width:600px;height:250px; display: none; background-color: blue;" class="playbackUrl"></textarea>
-
-                        <div class="flexigrid" style="margin: 0;overflow: visible;">
-                            <div class="d_table map_action">
-                                <div class="map_drag_box">
-                                    <i class="icon icon_drag"></i>
-                                </div>
-                                <div class="gps_box">
-                                    <!-- 报表放这里 -->
-                                    <ul style="list-style-type:none;margin: 0;padding:0px;">
-                                        <!-- <li id="videoTime" class="active"></li> -->
-                                        <li id="videoFile">
-                                            <table id="videoFileTable"></table>
-                                        </li>
-                                    </ul>
+                <div class="playback" style="margin: 0;">
+                   <!-- <p id="playbackTitle">录像查询</p> -->
+                    <div class="player-params2">
+                        <div class="player-param">
+                            <a id="queryresults" class="title windowIndex">查询结果：</a>
+                        </div>
+                            <div class="player-param" style="margin: 0;width: 1200;max-height:300px;overflow: auto;">
+                                <textarea id="videosearch" style="width: 1300px;height:250px; display: none; background-color: blue;" class="playbackUrl"></textarea>
+                                
+                                    <div class="flexigrid" style="margin: 0;overflow: visible;">
+                                        <div class="d_table map_action">
+                                            <div class="map_drag_box">
+                                                <i class="icon icon_drag"></i>
+                                            </div>
+                                    <div class="gps_box">
+                                                <!-- 报表放这里 -->
+                                        <ul style="list-style-type:none;margin: 0;padding:0px;">
+                                                    <!-- <li id="videoTime" class="active"></li> -->
+                                            <li id="videoFile">
+                                                <table id="videoFileTable"></table>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
     </div>
 </body>
-
 </html>
 
 
@@ -271,14 +270,12 @@ echo '</script>';
     var Account; //used
     var Spin; //for testing
     var Jx;
-
+    var urlx
     var vehicles_id
     var concheck = 1;
     var dynamic = []
     var myArray = [];
     var login_url = 'http://tod-office2.ddns.net:8080/StandardApiAction_login.action?account=admin&password=admin'
-    var urlx
-    var cusurl = 'http://tod-gps.com/logistics/mdvr_device.php?cus=3603';
     var VideoVal = 1;
     var FileType_val = 1;
     var file_location = 1;
@@ -288,13 +285,10 @@ echo '</script>';
     var format_startdate2
     var format_enddate2
 
-    var WindowH = $(window).height();
-    var WindowW = $(window).width();
-
 
     var json;
     var jsion = ""; //Used to determine whether the landing
-    var ip_ = "125.20.173.157";
+    var ip_ = "125.26.126.135";
     var port_ = "6605";
     var isLanding = false; //To determine whether the landing
     var IsSearching = false; //To determine whether the search
@@ -307,12 +301,7 @@ echo '</script>';
     var searchVehicle = null; //The vehicle being query
 
 
-    console.log(WindowH);
-    console.log(WindowW);
 
-    window.onload = function() {
-        getJsession2();
-    };
 
     const VideoQueryPrompt = "Related video results were not found!";
     $(function() {
@@ -349,101 +338,88 @@ echo '</script>';
                     name: 'operator',
                     width: 100,
                     sortable: false,
-                    align: 'center',
-
+                    align: 'center'
                 },
-
+                /*
                 {
                     display: lang.fileIndex,
                     name: 'fileIndex',
                     width: 40,
                     sortable: false,
-                    align: 'center',
-                    hide: true
+                    align: 'center'
                 },
-
+                */
                 {
                     display: lang.fileTime,
                     name: 'fileTime',
-                    width: 250,
+                    width: 150,
                     sortable: false,
                     align: 'center'
                 },
-
+                /*
                 {
                     display: lang.Type,
                     name: 'type',
                     width: 80,
                     sortable: false,
-                    align: 'center',
-                    hide: true
-
+                    align: 'center'
                 },
                 {
                     display: lang.spanDevice,
                     name: 'vehiIdno',
                     width: 100,
                     sortable: false,
-                    align: 'center',
-                    hide: true
-
+                    align: 'center'
                 },
                 {
                     display: lang.vehiChn,
                     name: 'vehiChn',
                     width: 70,
                     sortable: false,
-                    align: 'center',
-                    hide: true
+                    align: 'center'
                 },
 
-
-
+                */
+               /*
                 {
                     display: lang.loc,
                     name: 'loc',
                     width: 80,
                     sortable: false,
-                    align: 'center',
-                    hide: true
+                    align: 'center'
                 },
+                */
 
-
-
+                /*
                 {
                     display: lang.fileSize,
                     name: 'fileSize',
                     width: 80,
                     sortable: false,
-                    align: 'center',
-                    hide: true
+                    align: 'center'
                 },
-
+                */
                 {
                     display: lang.file,
                     name: 'file',
                     width: 380,
                     sortable: false,
-                    align: 'center',
-                    hide: true
+                    align: 'center'
                 },
-
+                /*
                 {
                     display: 'svr',
                     name: 'svr',
-                    width: 80,
                     hide: true
                 },
                 {
                     display: 'devIdno',
                     name: 'devIdno',
-                    width: 80,
                     hide: true
                 },
                 {
                     display: 'len',
                     name: 'len',
-                    width: 80,
                     hide: true
                 },
                 {
@@ -461,7 +437,7 @@ echo '</script>';
                     name: 'end',
                     hide: true
                 },
-
+                */
             ],
             usepager: false,
             autoload: false,
@@ -636,33 +612,22 @@ echo '</script>';
 
 
     function getJsession2() {
-        const checkStatus = response => {
-            if (response.ok) {
-                return response;
-            } else {
-                const error = new Error(response.statusText);
-                error.response = response;
-                throw error;
-            }
-        };
         fetch(login_url)
-            .then(checkStatus)
             .then((res) => res.json())
             .then((data) => {
-                console.log("TEST again")
-                console.log(data)
+
                 jsession_ID = data.jsession //used
                 Account = data.account_name //used
                 json = jsession_ID
                 jsion = jsession_ID
+
                 document.getElementById('output').innerHTML = jsession_ID;
                 return data2 = data
                 return Account
                 return jsession_ID
-            }).catch(function(error) {
-                console.log('request failed', error);
             })
-            .then((DevID) => {     // this use when we want to get DevID(Carno.) from API
+            .then((DevID) => {
+
                 let url = ('http://tod-office2.ddns.net:8080/StandardApiAction_queryUserVehicle.action?jsession=' + jsession_ID)
                 console.log(DevID)
                 console.log("ip=" + ip_)
@@ -670,54 +635,34 @@ echo '</script>';
                 console.log("jsession_ID=" + jsession_ID)
                 return urlx = url
             })
-            .then(() => {
+            .then((VeID) => {
                 getVehicle_ID()
-                
-            })
-        }
-
-/* Test Function
-    function GpsID() {
-        fetch('cartest.json')
-            .then((res) => res.json())
-            .then((data) => {
-                alert("Start")
-                let count = Object.keys(data).length;
-                console.log(data)
-                console.log("test from json 2")
-                const testX = data[1].GpsID
-                console.log(testX)
-                console.log(count)
-
-                for (let i = 0; i < count; i++) {
-
-                    myArray.push(data[i].GpsID)
-                   }
-                console.log(myArray)
-
-
             })
 
+        //test
     }
-*/
+
     function getVehicle_ID() {
-        fetch(cusurl) //fetch GpsID/CarNo. from TOD
+        fetch(urlx)
             .then((res) => res.json())
             .then((data) => {
 
-                let count = Object.keys(data).length;
-                console.log(data)
-                console.log("test from json 2")
-                const testX = data[1].GpsID
-                console.log(testX)
-                console.log("count " + count)
-                if (myArray.length > 0) {
+                let count = Object.keys(data.vehicles).length;
+                //console.log(count) // count Vehicle[0].nm from API
+                let myArrLength = myArray.length
+
+                //console.log("myArray length "+myArrLength)
+
+                if (myArrLength != 0) {
                     myArray.length = 0;
                 }
+                console.log("myArray length2 " + myArrLength)
                 for (let i = 0; i < count; i++) {
-                    myArray.push(data[i].GpsID)
-                    console.log("push " + i)
-
+                    //console.log(i)
+                    var company_id = data.companys[0].id
+                    vehicles_id = data.vehicles[0].nm
+                    console.log("vehicles_id " + vehicles_id)
+                    myArray.push(vehicles_id)
                 }
 
                 let output2 = '<h2>Cars List</h2>';
@@ -995,7 +940,7 @@ echo '</script>';
                     });
                     param2.push({
                         name: 'jsession',
-                        value: jsion
+                        value: json
                     });
                     if (radioFileLocation != 1) {
                         param2.push({
@@ -1325,19 +1270,11 @@ echo '</script>';
         //Initialization is not completed
         isInitFinished = false;
         //Video card width
-
-
+        var width = "800";
         //Video card hight
-
-        if (WindowW < 420) {
-            var width = "300";
-            var hieght = "150";
-        } else {
-            var width = "800";
-            var hieght = "400";
-        }
+        var hieght = "400";
         //Initialize flash
-        swfobject.embedSWF("player.swf", "cmsv6flash", width, hieght, "11.0.0", null, null, params, null);
+        swfobject.embedSWF("player.swf", "cmsv6flash", 800, 400, "11.0.0", null, null, params, null);
         initFlash();
     }
 
@@ -1551,4 +1488,5 @@ echo '</script>';
 
 
     }
+
 </script>
