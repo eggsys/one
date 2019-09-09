@@ -87,7 +87,7 @@ echo '</script>';
     </div>
 
     <div id="operateExample" style="position:absolute;width: 100%;">
-        <!--  用户登录开始 -->
+    
 
 
 
@@ -97,50 +97,9 @@ echo '</script>';
 
         <div id="output" class="jumbotron" hidden>Your Jsession will be here</div>
 
-        <!--
-        <span><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></span><span class="new-line"><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></span></p>
-    -->
-
-
-
-
-        <!-- Show Dev id Test -->
-        <!--
-        <div id="output2" class="jumbotron" style="position:relative; left:20px; top:2px;">Your Car List will be here</div>
-         -->
-        <!--
-    <div id="outputxx" class="jumbotron"></div> 
--->
-
+      
 
         <div>
-
-            <!--
-            <table>
-                <tr>
-                    <td> <label> CAR: </label> </td>
-                    <td>
-                        <select id="test" onchange="ChangeList()" class="custom-select" style="width:20em; font-size:15px">
-                            <option > ---Car--- </option>
-                        </select>
-                    </td>
-
-                    
-                    <td><label for="meeting-time" style="width:100px; text-align: center">Video Start:</label></td>
-                    <td class="new-line "><input type="datetime-local" id="meeting-time" name="meeting-time" value="2019-08-31T09:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_start()"></td>
-                    
-
-                    
-                    <td> <label for="ending-time" style="width:50px;  text-align: center;"> TO :</label></td>
-                    <td> <input type="datetime-local" id="ending-time" name="ending-time" value="2019-08-31T18:30" min="2019-06-07T00:00" max="2019-10-31T00:00" onclick="time_end()"></td>
-                    
-                </tr>
-            </table>
-
-            <hr>
-        -->
-
-
 
 
             <label class="mg1"> CAR: </label>
