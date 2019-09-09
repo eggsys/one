@@ -1,7 +1,7 @@
 <?php
 $user = 'admin'; // ตัวแปร PHP
 $pass = 'admin';
-$devid = '888888';
+
 $ip = 'tod-office2.ddns.net';
 echo '<script type="text/javascript">';
 echo "var user = '$user';"; // ส่งค่า $data จาก PHP ไปยังตัวแปร data ของ Javascript
@@ -294,7 +294,7 @@ echo '</script>';
 
     var json;
     var jsion = ""; //Used to determine whether the landing
-    var ip_ = "125.20.173.157";
+    var ip_ = "101.109.141.210";
     var port_ = "6605";
     var isLanding = false; //To determine whether the landing
     var IsSearching = false; //To determine whether the search
